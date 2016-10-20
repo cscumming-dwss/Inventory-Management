@@ -1,0 +1,129 @@
+package example.test.backend;
+
+import java.util.List;
+
+import example.test.backend.DataService;
+import example.test.backend.data.Asset;
+import example.test.backend.data.Category;
+import example.test.backend.data.Product;
+
+/**
+ * Mock data model. This implementation has very simplistic locking and does not
+ * notify users of modifications.
+ */
+public class MockDataService extends DataService {
+
+    private static MockDataService INSTANCE;
+
+    private List<Asset> assets;
+    private List<Product> products;
+    private List<Category> categories;
+    private int nextProductId, nextAssetId = 0;
+
+    private MockDataService() {
+        categories = MockDataGenerator.createCategories();
+        products = MockDataGenerator.createProducts(categories);
+        assets = MockDataGenerator.createAssets(categories);
+        nextProductId = products.size() + 1;
+    }
+
+    public synchronized static DataService getInstance() {
+        if (INSTANCE == null) {
+            INSTANCE = new MockDataService();
+        }
+        return INSTANCE;
+    }
+
+    @Override
+    public synchronized List<Product> getAllProducts() {
+        return products;
+    }
+
+    @Override
+    public synchronized List<Asset> getAllAssets() {
+        return assets;
+    }
+
+    @Override
+    public synchronized List<Category> getAllCategories() {
+        return categories;
+    }
+
+    @Override
+    public synchronized void updateProduct(Product p) {
+        if (p.getId() < 0) {
+            // New product
+            p.setId(nextProductId++);
+            products.add(p);
+            return;
+        }
+        for (int i = 0; i < products.size(); i++) {
+            if (products.get(i).getId() == p.getId()) {
+                products.set(i, p);
+                return;
+            }
+        }
+
+        throw new IllegalArgumentException("No product with id " + p.getId()
+                + " found");
+    }
+
+    @Override
+    public synchronized void updateAsset(Asset p) {
+        if (p.getId() < 0) {
+            // New product
+            p.setId(nextAssetId++);
+            assets.add(p);
+            return;
+        }
+        for (int i = 0; i < assets.size(); i++) {
+            if (assets.get(i).getId() == p.getId()) {
+                assets.set(i, p);
+                return;
+            }
+        }
+
+        throw new IllegalArgumentException("No asset with id " + p.getId()
+                + " found");
+    }
+
+    @Override
+    public synchronized Product getProductById(int productId) {
+        for (int i = 0; i < products.size(); i++) {
+            if (products.get(i).getId() == productId) {
+                return products.get(i);
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public synchronized Asset getAssetById(int assetId) {
+        for (int i = 0; i < assets.size(); i++) {
+            if (assets.get(i).getId() == assetId) {
+                return assets.get(i);
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public synchronized void deleteAsset(int assetId) {
+        Asset p = getAssetById(assetId);
+        if (p == null) {
+            throw new IllegalArgumentException("Product with id " + assetId
+                    + " not found");
+        }
+        assets.remove(p);
+    }
+
+    @Override
+    public synchronized void deleteProduct(int productId) {
+        Product p = getProductById(productId);
+        if (p == null) {
+            throw new IllegalArgumentException("Product with id " + productId
+                    + " not found");
+        }
+        products.remove(p);
+    }
+}
