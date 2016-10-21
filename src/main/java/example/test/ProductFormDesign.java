@@ -40,7 +40,7 @@ public class ProductFormDesign extends CssLayout {
     
     protected ComboBox availability;
     
-    protected CategoryField category;
+    //protected CategoryField category;
     
     protected Button save;
     protected Button cancel;

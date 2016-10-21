@@ -79,7 +79,7 @@ public class SampleCrudLogic implements Serializable {
 
     public void saveProduct(Product product) {
     	VaadinUI.get().getProductRepository().save(product);
-    	view.showSaveNotification(product.getProductName() + " ("
+    	view.showSaveNotification(product.getBarCode() + " ("
                 + product.getId() + ") updated");
         view.clearSelection();
         view.editProduct(null);
@@ -89,7 +89,7 @@ public class SampleCrudLogic implements Serializable {
 
     public void deleteProduct(Product product) {
     	VaadinUI.get().getProductRepository().delete(product.getId());
-        view.showSaveNotification(product.getProductName() + " ("
+        view.showSaveNotification(product.getBarCode() + " ("
                 + product.getId() + ") removed");
 
         view.clearSelection();

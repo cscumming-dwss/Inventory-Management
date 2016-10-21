@@ -63,8 +63,10 @@ public class ProductGrid extends Grid {
         setContainerDataSource(
                 new BeanItemContainer(Product.class, ui.getProductRepository().findAll()));        
         //setContainerDataSource(container);
-        setColumnOrder("id", "productName", "barCode", "propertyTag", "serialCode", "price", "availability",
-                "stockCount", "category");
+//        setColumnOrder("id", "productName", "barCode", "propertyTag", "serialCode", "price", "availability",
+//                "stockCount");
+        setColumnOrder("barCode", "propertyTag", "serialCode", "productName", "price", "availability",
+                "stockCount");
 
         // Show empty stock as "-"
         getColumn("stockCount").setConverter(new StringToIntegerConverter() {
@@ -85,10 +87,10 @@ public class ProductGrid extends Grid {
                 .setRenderer(new HtmlRenderer());
 
         // Add " €" automatically after price
-        getColumn("price").setConverter(new EuroConverter());
+        getColumn("price").setConverter(new DollarConverter());
 
         // Show categories as a comma separated list
-        getColumn("category").setConverter(new CollectionToStringConverter());
+       // getColumn("category").setConverter(new CollectionToStringConverter());
 
         // Align columns using a style generator and theme rule until #15438
         setCellStyleGenerator(new CellStyleGenerator() {
@@ -117,9 +119,9 @@ public class ProductGrid extends Grid {
             SimpleStringFilter nameFilter = new SimpleStringFilter(
                     "productName", filterString, true, false);
             SimpleStringFilter availabilityFilter = new SimpleStringFilter(
-                    "availability", filterString, true, false);
+                    "barCode", filterString, true, false);
             SimpleStringFilter categoryFilter = new SimpleStringFilter(
-                    "category", filterString, true, false);
+                    "propertyTag", filterString, true, false);
             getContainer().addContainerFilter(
                     new Or(nameFilter, availabilityFilter, categoryFilter));
         }

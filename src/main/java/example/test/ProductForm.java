@@ -37,11 +37,11 @@ public class ProductForm extends ProductFormDesign {
     public ProductForm(SampleCrudLogic sampleCrudLogic) {
         super();
         addStyleName("product-form");
-        //Experiement with setting size
+        //Experiment with setting size
         setSizeFull();
         viewLogic = sampleCrudLogic;
 
-        price.setConverter(new EuroConverter());
+        price.setConverter(new DollarConverter());
 
         for (Availability s : Availability.values()) {
             availability.addItem(s);
@@ -112,10 +112,10 @@ public class ProductForm extends ProductFormDesign {
         });
     }
 
-    public void setCategories(Collection<Category> categories) {
+/*    public void setCategories(Collection<Category> categories) {
         category.setOptions(categories);
     }
-
+*/
     public void editProduct(Product product) {
         if (product == null) {
             product = new Product();

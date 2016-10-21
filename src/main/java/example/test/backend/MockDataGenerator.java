@@ -107,7 +107,7 @@ public class MockDataGenerator {
             p.setStockCount(random.nextInt(523));
         }
 
-        p.setCategory(getCategory(categories, 1, 2));
+        //p.setCategory(getCategory(categories, 1, 2));
         return p;
     }
 

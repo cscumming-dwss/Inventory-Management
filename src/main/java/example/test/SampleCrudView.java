@@ -88,7 +88,7 @@ public class SampleCrudView extends CssLayout implements View {
             }
         });
 
-        newProduct = new Button("New product");
+        newProduct = new Button("New Asset");
         newProduct.addStyleName(ValoTheme.BUTTON_PRIMARY);
         newProduct.setIcon(FontAwesome.PLUS_CIRCLE);
         newProduct.addClickListener(new ClickListener() {

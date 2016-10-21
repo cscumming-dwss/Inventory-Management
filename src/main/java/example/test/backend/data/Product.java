@@ -43,15 +43,15 @@ public class Product implements Serializable {
     private String productName = "";
     @Min(0)
     private BigDecimal price = BigDecimal.ZERO;
-    @OneToMany
-    private Set<Category> category;
+    //@OneToMany
+    //private Set<Category> category;
     @Min(value = 0, message = "Can't have negative amount in stock")
     private int stockCount = 0;
     @NotNull
     private Availability availability = Availability.COMING;
-    @Size(max = 8, message = "Bar Code must not exceed 8 characters")
+    @Size(max = 25, message = "Bar Code must not exceed 8 characters")
     private String barCode = null;
-    @Size(max = 12, message = "Property Tag must not exceed 12 characters")
+    @Size(max = 25, message = "Property Tag must not exceed 12 characters")
     private String propertyTag = null;
     @Size(max = 25, message = "Serial Code must not exceed 25 characters")
     private String serialCode = null;
@@ -99,14 +99,14 @@ public class Product implements Serializable {
         this.price = price;
     }
 
-    public Set<Category> getCategory() {
+/*    public Set<Category> getCategory() {
         return category;
     }
 
     public void setCategory(Set<Category> category) {
         this.category = category;
     }
-
+*/
     public int getStockCount() {
         return stockCount;
     }
