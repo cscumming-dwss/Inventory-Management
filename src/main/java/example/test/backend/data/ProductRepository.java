@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 @Repository(forEntity = Product.class)
 public interface ProductRepository extends JpaRepository<Product, Integer> {
 
-	List<Product> findByProductNameStartsWithIgnoreCase(String productName);
+	List<Product> findByManufacturerStartsWithIgnoreCase(String manufacturer);
 
 	Product findOne(Integer id);
 }

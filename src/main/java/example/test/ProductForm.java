@@ -24,10 +24,12 @@ import example.test.backend.data.Product;
 
 /**
  * A form for editing a single product.
- *
+ *  This class does some conversions and implements handlers and listeners
+ *  the actual layout is handled by the productFormDesign.html since it is basically a static form
  * Using responsive layouts, the form can be displayed either sliding out on the
  * side of the view or filling the whole screen - see the theme for the related
  * CSS rules.
+ * Note: you can only override the CSS by creating and compiling your own Vaadin theme to override the Valo Theme defaults
  */
 public class ProductForm extends ProductFormDesign {
 
@@ -41,11 +43,12 @@ public class ProductForm extends ProductFormDesign {
         setSizeFull();
         viewLogic = sampleCrudLogic;
 
-        price.setConverter(new DollarConverter());
-
-        for (Availability s : Availability.values()) {
-            availability.addItem(s);
-        }
+        cost.setConverter(new DollarConverter());
+        
+//   Comment out - unless we need an example for a combo box  10/21/16
+//        for (Availability s : Availability.values()) {
+//            availability.addItem(s);
+//        }
 
         fieldGroup = new BeanFieldGroup<Product>(Product.class);
       //  fieldGroup.bindMemberFields(this);

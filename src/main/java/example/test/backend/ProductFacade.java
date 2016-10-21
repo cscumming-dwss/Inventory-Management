@@ -23,8 +23,8 @@ public class ProductFacade {
         repo.save(entity);
     }
 
-    public List<Product> findByProductNameStartsWithIgnoreCase(String value) {
-        return repo.findByProductNameStartsWithIgnoreCase(value);
+    public List<Product> findByManufactuerStartsWithIgnoreCase(String value) {
+        return repo.findByManufacturerStartsWithIgnoreCase(value);
     }
 
     public  List<Product> findAll(Integer id) {

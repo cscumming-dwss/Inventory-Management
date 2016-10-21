@@ -26,7 +26,9 @@ import example.test.backend.data.Product;
  */
 public class ProductGrid extends Grid {
 
-    private StringToEnumConverter availabilityConverter = new StringToEnumConverter() {
+/*  Comment out : this is used to convert an Enum to String and append a colored cirle icon next to it
+ * 
+ *     private StringToEnumConverter availabilityConverter = new StringToEnumConverter() {
         @Override
         public String convertToPresentation(Enum availability,
                 java.lang.Class<? extends String> targetType, Locale locale)
@@ -53,7 +55,7 @@ public class ProductGrid extends Grid {
         };
     };
 
-    public ProductGrid(VaadinUI ui) {
+*/    public ProductGrid(VaadinUI ui) {
         setSizeFull();
 
         setSelectionMode(SelectionMode.SINGLE);
@@ -65,9 +67,11 @@ public class ProductGrid extends Grid {
         //setContainerDataSource(container);
 //        setColumnOrder("id", "productName", "barCode", "propertyTag", "serialCode", "price", "availability",
 //                "stockCount");
-        setColumnOrder("barCode", "propertyTag", "serialCode", "productName", "price", "availability",
-                "stockCount");
-
+        setColumnOrder("barCode", "propertyTag", "serialCode", "dateEntered", "office", "description",
+                "assetType","assetModel","manufacturer","unit","comments","historyLog","vendor","dateReceived","purchaseOrder","budgetAccount",
+                "verifiedDate","computerRelated","excessed","assetLocation","repApproved","itemReplaced","inventoryDate","isEquipment","heatTicket");
+        
+/*
         // Show empty stock as "-"
         getColumn("stockCount").setConverter(new StringToIntegerConverter() {
             @Override
@@ -82,12 +86,12 @@ public class ProductGrid extends Grid {
             };
         });
 
-        // Add an traffic light icon in front of availability
-        getColumn("availability").setConverter(availabilityConverter)
-                .setRenderer(new HtmlRenderer());
+*/        // Add an traffic light icon in front of availability
+//        getColumn("availability").setConverter(availabilityConverter)
+ //               .setRenderer(new HtmlRenderer());
 
-        // Add " €" automatically after price
-        getColumn("price").setConverter(new DollarConverter());
+        // Add " $" automatically after price
+        getColumn("cost").setConverter(new DollarConverter());
 
         // Show categories as a comma separated list
        // getColumn("category").setConverter(new CollectionToStringConverter());
@@ -117,7 +121,7 @@ public class ProductGrid extends Grid {
         getContainer().removeAllContainerFilters();
         if (filterString.length() > 0) {
             SimpleStringFilter nameFilter = new SimpleStringFilter(
-                    "productName", filterString, true, false);
+                    "manufacturer", filterString, true, false);
             SimpleStringFilter availabilityFilter = new SimpleStringFilter(
                     "barCode", filterString, true, false);
             SimpleStringFilter categoryFilter = new SimpleStringFilter(

@@ -2,32 +2,81 @@
 <html>
 <head>
     <meta name="package-mapping" content="x:example.test" />
+    
 </head>
 <body>
 <v-css-layout id="product-form" style-name="product-form-wrapper">
-    <v-vertical-layout height-full spacing style-name="form-layout">
-        <v-text-field caption="Product name" _id="productName" width-full />
-        <v-text-field caption="Bar Code" _id="barCode" width-full />
-        <v-text-field caption="Property Tag" _id="propertyTag" width-full />
-        <v-text-field caption="Serial Code" _id="serialCode" width-full />
-        <v-horizontal-layout width-full spacing>
-	        <v-text-field caption="Type" _id="assettype" width-full />
-    	    <v-text-field caption="Model" _id="assetModel" width-full />
-    	    <v-text-field caption="Manufacturer" _id="manufacturer" width-full />
-        	<v-text-field caption="Description" _id="description" width-full />
-        	<v-date-field caption="Date Entered" _id="dateEntered" />
-        	<v-check-box caption="Item Replaced" _id="itemReplaced" />
-        </v-horizontal-layout>
+	<v-label caption="Item Information" />
+    <v-text-field caption="Product name" _id="productName" width="20%" responsvie/>
 
-        <v-horizontal-layout width-full spacing>
-            <v-text-field caption="Price" _id="price" width-full />
-            <v-text-field _id="stockCount" caption="In Stock" width-full />
-        </v-horizontal-layout>
-        <v-combo-box caption="Availability" _id="availability" width-full null-selection-allowed=false text-input-allowed=false />
+    <v-vertical-layout width-full>
+			<v-form-layout >
+				<v-horizontal-layout>
+					<v-vertical-layout width-full margin spacing :expand>
+						<v-text-field caption="Bar Code" _id="barCode" width-full />
+						<v-text-field caption="Property Tag" _id="propertyTag" width-full />
+						<v-text-field caption="Serial" _id="serialCode" width-full />
+					</v-vertical-layout>
+        			<v-vertical-layout width-full margin spacing :expand>
+    	    			<v-text-field caption="Manufacturer" _id="manufacturer" width-full />
+    	    			<v-text-field caption="Model" _id="assetModel" width-full />
+        				<v-text-field caption="Description" _id="description" width-full />
+        			</v-vertical-layout>
+        			<v-vertical-layout width-full margin spacing :expand>
+	        			<v-text-field caption="Type" _id="assettype" width-full />
+        			</v-vertical-layout>
+        		</v-horizontal-layout>
+        		<!--  Next Set -->        		
+				<v-label caption="Location Information" />        		
+				<v-horizontal-layout>
+					<v-vertical-layout width-full margin spacing :expand>
+						<v-text-field caption="Location" _id="assetlocation" width-full />
+						<v-text-field caption="Office" _id="office" width-full />
+						<v-check-box caption="Computer Related" _id="computerRelated" width-full />
+					</v-vertical-layout>
+        			<v-vertical-layout width-full margin spacing :expand>
+    	    			<v-text-field caption="Unit" _id="unit" width-full />
+    	    			<v-text-field caption="Notes" _id="notes" width-full />
+        				<v-check-box caption="IS Equipment" _id="isEquipment" width-full />
+        			</v-vertical-layout>
+        			<v-vertical-layout width-full margin spacing :expand>
+	        			<v-text-field caption="Heat Ticket:" _id="heatTicket" width-full />
+	        			<v-date-field caption="Verified Date:" _id="verifiedDate" width-full />
+	        			<v-check-box caption="excessed" _id="excessed" width-full />
+        			</v-vertical-layout>
+        		</v-horizontal-layout>
+        		
+        		<!--  Next Set -->        		
+				<v-label caption="Budget Information" />        		
+				<v-horizontal-layout>
+					<v-vertical-layout width-full margin spacing :expand>
+					    <v-date-field caption="Date Entered: " _id="dateEntered" />
+						<v-date-field caption="Date Received:" _id="dateReceived" width-full />
+						<v-text-field caption="4yr Rep:" _id="fourYearReplacement" width-full />
+					</v-vertical-layout>
+        			<v-vertical-layout width-full margin spacing :expand>
+    	    			<v-text-field caption="Budget Acct" _id="budgetAccount" width-full />
+    	    			<v-text-field caption="PO #" _id="purchaseOrder" width-full />
+        				<v-text-field caption="Cost" _id="cost" width-full />
+        			</v-vertical-layout>
+        			<v-vertical-layout width-full margin spacing :expand>
+	        			<v-text-field caption="Vendor:" _id="vendor" width-full />
+	        			<v-text-field caption="Rep Approved:" _id="repApproved" width-full />
+	        			<v-date-field caption="Inventoried" _id="inventoryDate" width-full />
+        			</v-vertical-layout>
+        		</v-horizontal-layout>
+        		
+        	</v-form-layout>
+
+        <v-text-area caption="Comments" _id="comments" width-full responsive />
+        <v-text-area caption="History Log" _id="historyLog" width-full responsive />
+        
         <v-css-layout :expand style-name="expander" />
-        <v-button style-name="primary" _id="save">Save</v-button>
-        <v-button style-name="cancel" _id="cancel" click-shortcut="escape">Cancel</v-button>
-        <v-button style-name="danger" _id="delete">Delete</v-button>
+		<v-horizontal-layout>
+        		<v-button style-name="primary" _id="save">Save</v-button>
+        		<v-button style-name="cancel" _id="cancel" click-shortcut="escape">Cancel</v-button>
+        		<v-button style-name="danger" _id="delete">Delete</v-button>
+        </v-horizontal-layout>
     </v-vertical-layout>
 </v-css-layout>
 </body>

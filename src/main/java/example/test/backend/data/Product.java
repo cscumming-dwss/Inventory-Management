@@ -18,6 +18,11 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import com.vaadin.ui.CheckBox;
+import com.vaadin.ui.DateField;
+import com.vaadin.ui.TextArea;
+import com.vaadin.ui.TextField;
+
 
 @Entity
 @Table(name = "Product")
@@ -25,8 +30,9 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "Product.findAll", query = "SELECT p FROM Product p"),
     @NamedQuery(name = "Product.findByProductID", query = "SELECT p FROM Product p WHERE p.id = :id"),
-    @NamedQuery(name = "Product.findByProductName", query = "SELECT p FROM Product p WHERE p.productName = :productName"),
-    @NamedQuery(name = "Product.findByBarCode", query = "SELECT p FROM Product p WHERE p.barCode = :barCode")})
+    @NamedQuery(name = "Product.findByManufacturer", query = "SELECT p FROM Product p WHERE p.manufacturer = :manufacturer"),
+    @NamedQuery(name = "Product.findByBarCode", query = "SELECT p FROM Product p WHERE p.barCode = :barCode"),
+	@NamedQuery(name = "Product.findByPropertyTag", query = "SELECT p FROM Product p WHERE p.propertyTag = :propertyTag")})
     
 
 public class Product implements Serializable {
@@ -38,30 +44,54 @@ public class Product implements Serializable {
 	@NotNull
 	@Column(name = "id")
 	private Integer id;
-    @NotNull
-    @Size(min = 2, message = "Product name must have at least two characters")
-    private String productName = "";
-    @Min(0)
-    private BigDecimal price = BigDecimal.ZERO;
     //@OneToMany
     //private Set<Category> category;
-    @Min(value = 0, message = "Can't have negative amount in stock")
-    private int stockCount = 0;
-    @NotNull
-    private Availability availability = Availability.COMING;
     @Size(max = 25, message = "Bar Code must not exceed 8 characters")
     private String barCode = null;
     @Size(max = 25, message = "Property Tag must not exceed 12 characters")
     private String propertyTag = null;
     @Size(max = 25, message = "Serial Code must not exceed 25 characters")
     private String serialCode = null;
-    private String assetType = null;
-    private String assetModel = null;
     private String manufacturer = null;
+    private String assetModel = null;
     private String description = null;
+    private String assetType = null;
+    private String assetLocation = null;
+    private String office = null;
+    private Boolean computerRelated = null;
+    private String unit = null;
+    private String notes = null;
+    private Boolean isEquipment = true;
+    private String heatTicket = null;
+    private Date verifiedDate = null;
+    private Boolean excessed = false;
+    private Date dateReceived = null;
+    private String fourYearReplacement = null;
+    private String budgetAccount = null;
+    private String purchaseOrder = null;
     
+    @Min(0)
+    private BigDecimal cost = BigDecimal.ZERO;
+    private String vendor = null;
+    private String repApproved = null;
+    private Date inventoryDate = null;
+    private String comments = null;
+    
+    private String historyLog = null;
     private Date dateEntered = null;
     private Boolean itemReplaced = false;
+    
+    
+ /*  
+    
+//    protected example.test.NumberField stockCount;
+        
+    //protected CategoryField category change to office code re example code
+    //protected OfficeField officeCode;
+
+  *  
+   */ 
+    
     
     public Product() {
 	}
@@ -70,10 +100,13 @@ public class Product implements Serializable {
         this.id = productID;
     }
 
-	public Product(Integer id, String productName, String barCode) {
+	public Product(Integer id, String barCode, String serialCode, String pTag, String manufacturer) {
 		this.id = id;
-		this.productName = productName;
 		this.barCode = barCode;
+		this.serialCode = serialCode;
+		this.propertyTag = pTag;
+		this.manufacturer = manufacturer;
+		
 	}    
     public int getId() {
         return id;
@@ -83,21 +116,6 @@ public class Product implements Serializable {
         this.id = id;
     }
 
-    public String getProductName() {
-        return productName;
-    }
-
-    public void setProductName(String productName) {
-        this.productName = productName;
-    }
-
-    public BigDecimal getPrice() {
-        return price;
-    }
-
-    public void setPrice(BigDecimal price) {
-        this.price = price;
-    }
 
 /*    public Set<Category> getCategory() {
         return category;
@@ -107,22 +125,6 @@ public class Product implements Serializable {
         this.category = category;
     }
 */
-    public int getStockCount() {
-        return stockCount;
-    }
-
-    public void setStockCount(int stockCount) {
-        this.stockCount = stockCount;
-    }
-
-    public Availability getAvailability() {
-        return availability;
-    }
-
-    public void setAvailability(Availability availability) {
-        this.availability = availability;
-    }
-
 	public String getBarCode() {
 		return barCode;
 	}
@@ -197,6 +199,167 @@ public class Product implements Serializable {
 
 	public void setItemReplaced(Boolean itemReplaced) {
 		this.itemReplaced = itemReplaced;
+	}
+
+	
+	public String getAssetLocation() {
+		return assetLocation;
+	}
+
+	public void setAssetLocation(String assetLocation) {
+		this.assetLocation = assetLocation;
+	}
+
+	public String getOffice() {
+		return office;
+	}
+
+	public void setOffice(String office) {
+		this.office = office;
+	}
+
+	public Boolean getComputerRelated() {
+		return computerRelated;
+	}
+
+	public void setComputerRelated(Boolean computerRelated) {
+		this.computerRelated = computerRelated;
+	}
+
+	public String getUnit() {
+		return unit;
+	}
+
+	public void setUnit(String unit) {
+		this.unit = unit;
+	}
+
+	public String getNotes() {
+		return notes;
+	}
+
+	public void setNotes(String notes) {
+		this.notes = notes;
+	}
+
+	public Boolean getIsEquipment() {
+		return isEquipment;
+	}
+
+	public void setIsEquipment(Boolean isEquipment) {
+		this.isEquipment = isEquipment;
+	}
+
+	public String getHeatTicket() {
+		return heatTicket;
+	}
+
+	public void setHeatTicket(String heatTicket) {
+		this.heatTicket = heatTicket;
+	}
+
+	public Date getVerifiedDate() {
+		return verifiedDate;
+	}
+
+	public void setVerifiedDate(Date verifiedDate) {
+		this.verifiedDate = verifiedDate;
+	}
+
+	public Boolean getExcessed() {
+		return excessed;
+	}
+
+	public void setExcessed(Boolean excessed) {
+		this.excessed = excessed;
+	}
+
+	public Date getDateReceived() {
+		return dateReceived;
+	}
+
+	public void setDateReceived(Date dateReceived) {
+		this.dateReceived = dateReceived;
+	}
+
+	public String getFourYearReplacement() {
+		return fourYearReplacement;
+	}
+
+	public void setFourYearReplacement(String fourYearReplacement) {
+		this.fourYearReplacement = fourYearReplacement;
+	}
+
+	public String getBudgetAccount() {
+		return budgetAccount;
+	}
+
+	public void setBudgetAccount(String budgetAccount) {
+		this.budgetAccount = budgetAccount;
+	}
+
+	public String getPurchaseOrder() {
+		return purchaseOrder;
+	}
+
+	public void setPurchaseOrder(String purchaseOrder) {
+		this.purchaseOrder = purchaseOrder;
+	}
+
+	public BigDecimal getCost() {
+		return cost;
+	}
+
+	public void setCost(BigDecimal cost) {
+		this.cost = cost;
+	}
+
+	public String getVendor() {
+		return vendor;
+	}
+
+	public void setVendor(String vendor) {
+		this.vendor = vendor;
+	}
+
+	public String getRepApproved() {
+		return repApproved;
+	}
+
+	public void setRepApproved(String repApproved) {
+		this.repApproved = repApproved;
+	}
+
+	public Date getInventoryDate() {
+		return inventoryDate;
+	}
+
+	public void setInventoryDate(Date inventoryDate) {
+		this.inventoryDate = inventoryDate;
+	}
+
+	public String getComments() {
+		return comments;
+	}
+
+	public void setComments(String comments) {
+		this.comments = comments;
+	}
+
+	public String getHistoryLog() {
+		return historyLog;
+	}
+
+	public void setHistoryLog(String actionLog) {
+		this.historyLog = actionLog;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
 	}
 
 	/* (non-Javadoc)
