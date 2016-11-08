@@ -42,12 +42,12 @@ public class ProductFormDesign extends CssLayout {
     protected CheckBox  excessed;
     protected DateField dateEntered;
     protected DateField dateReceived;
-    protected TextField fourYearReplacement;
-    protected TextField budgetAccount;
+//    protected TextField fourYearReplacement;
+    protected TextField budgetCode;
     protected TextField purchaseOrder;
     protected TextField cost;
     protected TextField vendor;
-    protected TextField repApproved;
+    protected DateField repApproved;
     protected DateField inventoryDate;
     protected TextArea  comments;
     protected TextArea  historyLog;

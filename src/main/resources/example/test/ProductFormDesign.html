@@ -52,16 +52,15 @@
 					<v-vertical-layout width-full margin spacing :expand>
 					    <v-date-field caption="Date Entered: " _id="dateEntered" />
 						<v-date-field caption="Date Received:" _id="dateReceived" width-full />
-						<v-text-field caption="4yr Rep:" _id="fourYearReplacement" width-full />
 					</v-vertical-layout>
         			<v-vertical-layout width-full margin spacing :expand>
-    	    			<v-text-field caption="Budget Acct" _id="budgetAccount" width-full />
+    	    			<v-text-field caption="Budget Acct" _id="budgetCode" width-full />
     	    			<v-text-field caption="PO #" _id="purchaseOrder" width-full />
         				<v-text-field caption="Cost" _id="cost" width-full />
         			</v-vertical-layout>
         			<v-vertical-layout width-full margin spacing :expand>
 	        			<v-text-field caption="Vendor:" _id="vendor" width-full />
-	        			<v-text-field caption="Rep Approved:" _id="repApproved" width-full />
+	        			<v-date-field caption="Rep Approved:" _id="repApproved" width-full />
 	        			<v-date-field caption="Inventoried" _id="inventoryDate" width-full />
         			</v-vertical-layout>
         		</v-horizontal-layout>

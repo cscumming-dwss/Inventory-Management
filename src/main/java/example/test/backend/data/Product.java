@@ -3,37 +3,28 @@ package example.test.backend.data;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
-import java.util.Set;
-
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import com.vaadin.ui.CheckBox;
-import com.vaadin.ui.DateField;
-import com.vaadin.ui.TextArea;
-import com.vaadin.ui.TextField;
-
 
 @Entity
 @Table(name = "Product")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Product.findAll", query = "SELECT p FROM Product p"),
-    @NamedQuery(name = "Product.findByProductID", query = "SELECT p FROM Product p WHERE p.id = :id"),
-    @NamedQuery(name = "Product.findByManufacturer", query = "SELECT p FROM Product p WHERE p.manufacturer = :manufacturer"),
-    @NamedQuery(name = "Product.findByBarCode", query = "SELECT p FROM Product p WHERE p.barCode = :barCode"),
-	@NamedQuery(name = "Product.findByPropertyTag", query = "SELECT p FROM Product p WHERE p.propertyTag = :propertyTag")})
-    
+  @NamedQuery(name = "Product.findAll", query = "SELECT p FROM Product p"),
+  @NamedQuery(name = "Product.findByProductID", query = "SELECT p FROM Product p WHERE p.id = :id"),
+  @NamedQuery(name = "Product.findByManufacturer", query = "SELECT p FROM Product p WHERE p.manufacturer = :manufacturer"),
+  @NamedQuery(name = "Product.findByBarCode", query = "SELECT p FROM Product p WHERE p.barCode = :barCode"),
+  @NamedQuery(name = "Product.findByPropertyTag", query = "SELECT p FROM Product p WHERE p.propertyTag = :propertyTag")})
 
 public class Product implements Serializable {
 
@@ -46,40 +37,104 @@ public class Product implements Serializable {
 	private Integer id;
     //@OneToMany
     //private Set<Category> category;
-    @Size(max = 25, message = "Bar Code must not exceed 8 characters")
-    private String barCode = null;
-    @Size(max = 25, message = "Property Tag must not exceed 12 characters")
+	
+	@Column(name="Barcode", columnDefinition = "NVarChar(50)")
+	@Size(min = 1, max = 50)
+	@NotNull
+    private String barCode;
+	
+	@Column(name="Propertytag", columnDefinition = "NVarChar(50)")
     private String propertyTag = null;
-    @Size(max = 25, message = "Serial Code must not exceed 25 characters")
+
+	@Column(name = "Dateentered")
+//	@NotNull
+    private Date dateEntered;
+
+	@Column(name = "Serial")
+	@NotNull
     private String serialCode = null;
-    private String manufacturer = null;
-    private String assetModel = null;
-    private String description = null;
-    private String assetType = null;
-    private String assetLocation = null;
+	
+	@Column(name="Officecode", columnDefinition = "NVarChar(50)")	
     private String office = null;
-    private Boolean computerRelated = null;
+	
+	@Column(name="Description", columnDefinition = "nvarchar")	
+	private String description = null;
+	
+	@Column(name="Type", columnDefinition = "nvarchar")	
+    private String assetType = null;
+
+	@Column(name="Model", columnDefinition = "nvarchar")	
+	private String assetModel = null;
+	
+	private String manufacturer = null;
+	
+	private String operator = null;
+	
     private String unit = null;
-    private String notes = null;
-    private Boolean isEquipment = true;
-    private String heatTicket = null;
-    private Date verifiedDate = null;
-    private Boolean excessed = false;
-    private Date dateReceived = null;
-    private String fourYearReplacement = null;
-    private String budgetAccount = null;
-    private String purchaseOrder = null;
-    
-    @Min(0)
-    private BigDecimal cost = BigDecimal.ZERO;
-    private String vendor = null;
-    private String repApproved = null;
-    private Date inventoryDate = null;
+
     private String comments = null;
     
-    private String historyLog = null;
-    private Date dateEntered = null;
+	@Min(0)
+    private BigDecimal cost = BigDecimal.ZERO;
+
+	@Column(name="Showcomments", columnDefinition = "nvarchar")	
+    private Boolean showComments = false;
+    
+    private String vendor = null;
+
+    private String tech = null;
+
+	@Column(name="datereceived", columnDefinition = "nvarchar")	
+  //  @NotNull
+    private Date dateReceived;
+
+	@Column(name="purchaseorder", columnDefinition = "nvarchar")	
+	private String purchaseOrder = null;
+
+
+	@Column(name="budgetcode", columnDefinition = "nvarchar")	
+	private String budgetCode;
+
+    private String LU = null;
+
+	@Column(name="Lastverified")	
+//	@NotNull
+    private Date verifiedDate;
+
+	@Column(name="Computerrelated")	
+  //  @NotNull
+    private Boolean computerRelated;
+
+    private Boolean excessed = false;
+
+	@Column(name="locationcode", columnDefinition = "nvarchar")	
+	private String locationCode;
+	
+	@Column(name="locationtype", columnDefinition = "nvarchar")	
+	private String locationType = null;
+	
+	@Column(name="replacementapproved")	
+//    @NotNull
+    private Date repApproved;
+    
+	@Column(name="Itemreplaced")	
     private Boolean itemReplaced = false;
+    
+	@Column(name="Notes", columnDefinition = "nvarchar")	
+    private String notes = null;
+
+	@Column(name="Lastinventoried")
+ //   @NotNull
+    private Date inventoryDate = null;
+
+	@Column(name="MarkedIS")
+    private Boolean isEquipment = true;
+	
+	@Column(name="Actionlog", columnDefinition = "nvarchar")	
+	private String historyLog = null;
+	
+	@Column(name="heatticket", columnDefinition = "nvarchar")	
+    private Integer heatTicket = null;
     
     
  /*  
@@ -91,7 +146,6 @@ public class Product implements Serializable {
 
   *  
    */ 
-    
     
     public Product() {
 	}
@@ -201,15 +255,6 @@ public class Product implements Serializable {
 		this.itemReplaced = itemReplaced;
 	}
 
-	
-	public String getAssetLocation() {
-		return assetLocation;
-	}
-
-	public void setAssetLocation(String assetLocation) {
-		this.assetLocation = assetLocation;
-	}
-
 	public String getOffice() {
 		return office;
 	}
@@ -250,11 +295,11 @@ public class Product implements Serializable {
 		this.isEquipment = isEquipment;
 	}
 
-	public String getHeatTicket() {
+	public Integer getHeatTicket() {
 		return heatTicket;
 	}
 
-	public void setHeatTicket(String heatTicket) {
+	public void setHeatTicket(Integer heatTicket) {
 		this.heatTicket = heatTicket;
 	}
 
@@ -274,6 +319,54 @@ public class Product implements Serializable {
 		this.excessed = excessed;
 	}
 
+	public String getOperator() {
+		return operator;
+	}
+
+	public void setOperator(String operator) {
+		this.operator = operator;
+	}
+
+	public Boolean getShowComments() {
+		return showComments;
+	}
+
+	public void setShowComments(Boolean showComments) {
+		this.showComments = showComments;
+	}
+
+	public String getTech() {
+		return tech;
+	}
+
+	public void setTech(String tech) {
+		this.tech = tech;
+	}
+
+	public String getLU() {
+		return LU;
+	}
+
+	public void setLU(String lU) {
+		LU = lU;
+	}
+
+	public String getLocationCode() {
+		return locationCode;
+	}
+
+	public void setLocationCode(String locationCode) {
+		this.locationCode = locationCode;
+	}
+
+	public String getLocationType() {
+		return locationType;
+	}
+
+	public void setLocationType(String locationType) {
+		this.locationType = locationType;
+	}
+
 	public Date getDateReceived() {
 		return dateReceived;
 	}
@@ -282,20 +375,12 @@ public class Product implements Serializable {
 		this.dateReceived = dateReceived;
 	}
 
-	public String getFourYearReplacement() {
-		return fourYearReplacement;
+	public String getBudgetCode() {
+		return budgetCode;
 	}
 
-	public void setFourYearReplacement(String fourYearReplacement) {
-		this.fourYearReplacement = fourYearReplacement;
-	}
-
-	public String getBudgetAccount() {
-		return budgetAccount;
-	}
-
-	public void setBudgetAccount(String budgetAccount) {
-		this.budgetAccount = budgetAccount;
+	public void setBudgetCode(String budgetAccount) {
+		this.budgetCode = budgetAccount;
 	}
 
 	public String getPurchaseOrder() {
@@ -322,11 +407,11 @@ public class Product implements Serializable {
 		this.vendor = vendor;
 	}
 
-	public String getRepApproved() {
+	public Date getRepApproved() {
 		return repApproved;
 	}
 
-	public void setRepApproved(String repApproved) {
+	public void setRepApproved(Date repApproved) {
 		this.repApproved = repApproved;
 	}
 

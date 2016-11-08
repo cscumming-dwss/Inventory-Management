@@ -10,5 +10,6 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
 
 	List<Product> findByManufacturerStartsWithIgnoreCase(String manufacturer);
 
+	@Override
 	Product findOne(Integer id);
 }

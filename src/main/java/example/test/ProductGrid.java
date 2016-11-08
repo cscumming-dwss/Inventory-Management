@@ -68,8 +68,8 @@ public class ProductGrid extends Grid {
 //        setColumnOrder("id", "productName", "barCode", "propertyTag", "serialCode", "price", "availability",
 //                "stockCount");
         setColumnOrder("barCode", "propertyTag", "serialCode", "dateEntered", "office", "description",
-                "assetType","assetModel","manufacturer","unit","comments","historyLog","vendor","dateReceived","purchaseOrder","budgetAccount",
-                "verifiedDate","computerRelated","excessed","assetLocation","repApproved","itemReplaced","inventoryDate","isEquipment","heatTicket");
+                "assetType","assetModel","manufacturer","unit","comments","historyLog","vendor","dateReceived","purchaseOrder","budgetCode",
+                "verifiedDate","computerRelated","excessed","locationCode","repApproved","itemReplaced","inventoryDate","isEquipment","heatTicket");
         
 /*
         // Show empty stock as "-"

@@ -20,7 +20,7 @@ public class InventoryApplication {
 		SpringApplication.run(InventoryApplication.class, args);
 	}
 
-	@Bean
+/*	@Bean
 	public CommandLineRunner loadData(ProductRepository repository) {
 		return (args) -> {
 			// save a couple of customers
@@ -53,5 +53,5 @@ public class InventoryApplication {
 			}
 			log.info("");
 		};
-	}	
+	}*/	
 }
