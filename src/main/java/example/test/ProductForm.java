@@ -127,7 +127,7 @@ public class ProductForm extends ProductFormDesign {
 
         // before the user makes any changes, disable validation error indicator
         // of the product name field (which may be empty) *substitute serialcode maybe we don't need this field
-        //productName.setValidationVisible(false);
+        barCode.setValidationVisible(false);
 
         // Scroll to the top
         // As this is not a Panel, using JavaScript

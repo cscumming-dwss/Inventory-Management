@@ -38,76 +38,75 @@ public class Product implements Serializable {
 	@NotNull
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	@Column(name = "id")
-	private Integer id = 0;
+	private Integer id = -1;
     //@OneToMany
     //private Set<Category> category;
 	
 	@Column(name="Barcode", columnDefinition = "NVarChar(50)")
 	@Size(min = 1, max = 50)
 	@NotNull
-    private String barCode;
+    private String barCode = new String();
 	
 	@Column(name="Propertytag", columnDefinition = "NVarChar(50)")
-    private String propertyTag = null;
+    private String propertyTag = new String();
 
 	@Column(name = "Dateentered")
 //	@NotNull
-    private Date dateEntered;
+    private Date dateEntered = new Date();
 
 	@Column(name = "Serial")
 	@NotNull
-    private String serialCode = null;
+    private String serialCode = new String();
 	
 	@Column(name="Officecode", columnDefinition = "NVarChar(50)")	
-    private String office = null;
+    private String office = new String();
 	
 	@Column(name="Description", columnDefinition = "nvarchar")	
-	private String description = null;
+	private String description = new String();
 	
 	@Column(name="Type", columnDefinition = "nvarchar")	
-    private String assetType = null;
+    private String assetType = new String();
 
 	@Column(name="Model", columnDefinition = "nvarchar")	
-	private String assetModel = null;
+	private String assetModel = new String();
 	
-	private String manufacturer = null;
+	private String manufacturer = new String();
 	
-	private String operator = null;
+	private String operator = new String();
 	
-    private String unit = null;
+    private String unit = new String();
 
-    private String comments = null;
-    
+    private String comments = new String();    
 	@Min(0)
     private BigDecimal cost = BigDecimal.ZERO;
 
 	@Column(name="Showcomments", columnDefinition = "nvarchar")	
     private Boolean showComments = false;
     
-    private String vendor = null;
+    private String vendor = new String();
 
-    private String tech = null;
+    private String tech = new String();
 
 	@Column(name="datereceived", columnDefinition = "nvarchar")	
   //  @NotNull
-    private Date dateReceived;
+    private Date dateReceived = new Date();
 
 	@Column(name="purchaseorder", columnDefinition = "nvarchar")	
-	private String purchaseOrder = null;
+	private String purchaseOrder = new String();
 
 
 	@Column(name="budgetcode", columnDefinition = "nvarchar")	
-	private String budgetCode;
+	private String budgetCode = new String();
 
     private String LU = null;
 
 	@Column(name="Lastverified")	
 //	@NotNull
-    private Date verifiedDate;
+    private Date verifiedDate = new Date();
 
 	@Column(name="Computerrelated")	
   //  @NotNull
-    private Boolean computerRelated;
+    private Boolean computerRelated = true;
 
     private Boolean excessed = false;
 
@@ -115,30 +114,30 @@ public class Product implements Serializable {
 	private String locationCode;
 	
 	@Column(name="locationtype", columnDefinition = "nvarchar")	
-	private String locationType = null;
+	private String locationType = new String();
 	
 	@Column(name="replacementapproved")	
 //    @NotNull
-    private Date repApproved;
+    private Date repApproved = new Date();
     
 	@Column(name="Itemreplaced")	
     private Boolean itemReplaced = false;
     
 	@Column(name="Notes", columnDefinition = "nvarchar")	
-    private String notes = null;
+    private String notes = new String();
 
 	@Column(name="Lastinventoried")
  //   @NotNull
-    private Date inventoryDate = null;
+    private Date inventoryDate = new Date();
 
 	@Column(name="MarkedIS")
     private Boolean isEquipment = true;
 	
 	@Column(name="Actionlog", columnDefinition = "nvarchar")	
-	private String historyLog = null;
+	private String historyLog = new String();
 	
 	@Column(name="heatticket", columnDefinition = "nvarchar")	
-    private Integer heatTicket = null;
+    private Integer heatTicket = 0;
     
     
  /*  
