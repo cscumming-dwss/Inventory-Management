@@ -3,145 +3,86 @@ package example.test.backend.data;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.Set;
 
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import com.vaadin.ui.CheckBox;
+import com.vaadin.ui.DateField;
+import com.vaadin.ui.TextArea;
+import com.vaadin.ui.TextField;
 
-@Entity
-@Table(name = "Product")
-@XmlRootElement
-@NamedQueries({
-  @NamedQuery(name = "Product.findAll", query = "SELECT p FROM Product p"),
-  @NamedQuery(name = "Product.findByProductID", query = "SELECT p FROM Product p WHERE p.id = :id"),
-  @NamedQuery(name = "Product.findByManufacturer", query = "SELECT p FROM Product p WHERE p.manufacturer = :manufacturer"),
-  @NamedQuery(name = "Product.findByBarCode", query = "SELECT p FROM Product p WHERE p.barCode = :barCode"),
-  @NamedQuery(name = "Product.findByPropertyTag", query = "SELECT p FROM Product p WHERE p.propertyTag = :propertyTag")})
 
-public class Product implements Serializable {
+//@Entity
+//@Table(name = "Product")
+//@XmlRootElement
+/*@NamedQueries({
+//    @NamedQuery(name = "Product.findAll", query = "SELECT p FROM Product p"),
+//    @NamedQuery(name = "Product.findByProductID", query = "SELECT p FROM Product p WHERE p.id = :id"),
+//    @NamedQuery(name = "Product.findByManufacturer", query = "SELECT p FROM Product p WHERE p.manufacturer = :manufacturer"),
+//    @NamedQuery(name = "Product.findByBarCode", query = "SELECT p FROM Product p WHERE p.barCode = :barCode"),
+//	  @NamedQuery(name = "Product.findByPropertyTag", query = "SELECT p FROM Product p WHERE p.propertyTag = :propertyTag")})
+    
+*/
+/*public class _Product implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@Basic(optional = false)
 	@NotNull
-	@GeneratedValue(strategy=GenerationType.AUTO)
 	@Column(name = "id")
-	private Integer id = 0;
+	private Integer id;
     //@OneToMany
     //private Set<Category> category;
-	
-	@Column(name="Barcode", columnDefinition = "NVarChar(50)")
-	@Size(min = 1, max = 50)
-	@NotNull
-    private String barCode;
-	
-	@Column(name="Propertytag", columnDefinition = "NVarChar(50)")
+    @Size(max = 25, message = "Bar Code must not exceed 8 characters")
+    private String barCode = null;
+    @Size(max = 25, message = "Property Tag must not exceed 12 characters")
     private String propertyTag = null;
-
-	@Column(name = "Dateentered")
-//	@NotNull
-    private Date dateEntered;
-
-	@Column(name = "Serial")
-	@NotNull
+    @Size(max = 25, message = "Serial Code must not exceed 25 characters")
     private String serialCode = null;
-	
-	@Column(name="Officecode", columnDefinition = "NVarChar(50)")	
-    private String office = null;
-	
-	@Column(name="Description", columnDefinition = "nvarchar")	
-	private String description = null;
-	
-	@Column(name="Type", columnDefinition = "nvarchar")	
+    private String manufacturer = null;
+    private String assetModel = null;
+    private String description = null;
     private String assetType = null;
-
-	@Column(name="Model", columnDefinition = "nvarchar")	
-	private String assetModel = null;
-	
-	private String manufacturer = null;
-	
-	private String operator = null;
-	
+    private String assetLocation = null;
+    private String office = null;
+    private Boolean computerRelated = null;
     private String unit = null;
-
+    private String notes = null;
+    private Boolean isEquipment = true;
+    private String heatTicket = null;
+    private Date verifiedDate = null;
+    private Boolean excessed = false;
+    private Date dateReceived = null;
+    private String fourYearReplacement = null;
+    private String budgetAccount = null;
+    private String purchaseOrder = null;
+    
+    @Min(0)
+    private BigDecimal cost = BigDecimal.ZERO;
+    private String vendor = null;
+    private String repApproved = null;
+    private Date inventoryDate = null;
     private String comments = null;
     
-	@Min(0)
-    private BigDecimal cost = BigDecimal.ZERO;
-
-	@Column(name="Showcomments", columnDefinition = "nvarchar")	
-    private Boolean showComments = false;
-    
-    private String vendor = null;
-
-    private String tech = null;
-
-	@Column(name="datereceived", columnDefinition = "nvarchar")	
-  //  @NotNull
-    private Date dateReceived;
-
-	@Column(name="purchaseorder", columnDefinition = "nvarchar")	
-	private String purchaseOrder = null;
-
-
-	@Column(name="budgetcode", columnDefinition = "nvarchar")	
-	private String budgetCode;
-
-    private String LU = null;
-
-	@Column(name="Lastverified")	
-//	@NotNull
-    private Date verifiedDate;
-
-	@Column(name="Computerrelated")	
-  //  @NotNull
-    private Boolean computerRelated;
-
-    private Boolean excessed = false;
-
-	@Column(name="locationcode", columnDefinition = "nvarchar")	
-	private String locationCode;
-	
-	@Column(name="locationtype", columnDefinition = "nvarchar")	
-	private String locationType = null;
-	
-	@Column(name="replacementapproved")	
-//    @NotNull
-    private Date repApproved;
-    
-	@Column(name="Itemreplaced")	
+    private String historyLog = null;
+    private Date dateEntered = null;
     private Boolean itemReplaced = false;
     
-	@Column(name="Notes", columnDefinition = "nvarchar")	
-    private String notes = null;
-
-	@Column(name="Lastinventoried")
- //   @NotNull
-    private Date inventoryDate = null;
-
-	@Column(name="MarkedIS")
-    private Boolean isEquipment = true;
-	
-	@Column(name="Actionlog", columnDefinition = "nvarchar")	
-	private String historyLog = null;
-	
-	@Column(name="heatticket", columnDefinition = "nvarchar")	
-    private Integer heatTicket = null;
     
-    
- /*  
+   
     
 //    protected example.test.NumberField stockCount;
         
@@ -149,16 +90,17 @@ public class Product implements Serializable {
     //protected OfficeField officeCode;
 
   *  
-   */ 
     
-    public Product() {
+    
+    
+    public _Product() {
 	}
 
-    public Product(Integer productID) {
+    public _Product(Integer productID) {
         this.id = productID;
     }
 
-	public Product(Integer id, String barCode, String serialCode, String pTag, String manufacturer) {
+	public _Product(Integer id, String barCode, String serialCode, String pTag, String manufacturer) {
 		this.id = id;
 		this.barCode = barCode;
 		this.serialCode = serialCode;
@@ -175,14 +117,14 @@ public class Product implements Serializable {
     }
 
 
-/*    public Set<Category> getCategory() {
+    public Set<Category> getCategory() {
         return category;
     }
 
     public void setCategory(Set<Category> category) {
         this.category = category;
     }
-*/
+
 	public String getBarCode() {
 		return barCode;
 	}
@@ -259,6 +201,15 @@ public class Product implements Serializable {
 		this.itemReplaced = itemReplaced;
 	}
 
+	
+	public String getAssetLocation() {
+		return assetLocation;
+	}
+
+	public void setAssetLocation(String assetLocation) {
+		this.assetLocation = assetLocation;
+	}
+
 	public String getOffice() {
 		return office;
 	}
@@ -299,11 +250,11 @@ public class Product implements Serializable {
 		this.isEquipment = isEquipment;
 	}
 
-	public Integer getHeatTicket() {
+	public String getHeatTicket() {
 		return heatTicket;
 	}
 
-	public void setHeatTicket(Integer heatTicket) {
+	public void setHeatTicket(String heatTicket) {
 		this.heatTicket = heatTicket;
 	}
 
@@ -323,54 +274,6 @@ public class Product implements Serializable {
 		this.excessed = excessed;
 	}
 
-	public String getOperator() {
-		return operator;
-	}
-
-	public void setOperator(String operator) {
-		this.operator = operator;
-	}
-
-	public Boolean getShowComments() {
-		return showComments;
-	}
-
-	public void setShowComments(Boolean showComments) {
-		this.showComments = showComments;
-	}
-
-	public String getTech() {
-		return tech;
-	}
-
-	public void setTech(String tech) {
-		this.tech = tech;
-	}
-
-	public String getLU() {
-		return LU;
-	}
-
-	public void setLU(String lU) {
-		LU = lU;
-	}
-
-	public String getLocationCode() {
-		return locationCode;
-	}
-
-	public void setLocationCode(String locationCode) {
-		this.locationCode = locationCode;
-	}
-
-	public String getLocationType() {
-		return locationType;
-	}
-
-	public void setLocationType(String locationType) {
-		this.locationType = locationType;
-	}
-
 	public Date getDateReceived() {
 		return dateReceived;
 	}
@@ -379,12 +282,20 @@ public class Product implements Serializable {
 		this.dateReceived = dateReceived;
 	}
 
-	public String getBudgetCode() {
-		return budgetCode;
+	public String getFourYearReplacement() {
+		return fourYearReplacement;
 	}
 
-	public void setBudgetCode(String budgetAccount) {
-		this.budgetCode = budgetAccount;
+	public void setFourYearReplacement(String fourYearReplacement) {
+		this.fourYearReplacement = fourYearReplacement;
+	}
+
+	public String getBudgetAccount() {
+		return budgetAccount;
+	}
+
+	public void setBudgetAccount(String budgetAccount) {
+		this.budgetAccount = budgetAccount;
 	}
 
 	public String getPurchaseOrder() {
@@ -411,11 +322,11 @@ public class Product implements Serializable {
 		this.vendor = vendor;
 	}
 
-	public Date getRepApproved() {
+	public String getRepApproved() {
 		return repApproved;
 	}
 
-	public void setRepApproved(Date repApproved) {
+	public void setRepApproved(String repApproved) {
 		this.repApproved = repApproved;
 	}
 
@@ -451,9 +362,9 @@ public class Product implements Serializable {
 		this.id = id;
 	}
 
-	/* (non-Javadoc)
+	 (non-Javadoc)
 	 * @see java.lang.Object#hashCode()
-	 */
+	 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -462,9 +373,9 @@ public class Product implements Serializable {
 		return result;
 	}
 
-	/* (non-Javadoc)
+	 (non-Javadoc)
 	 * @see java.lang.Object#equals(java.lang.Object)
-	 */
+	 
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj) {
@@ -473,10 +384,10 @@ public class Product implements Serializable {
 		if (obj == null) {
 			return false;
 		}
-		if (!(obj instanceof Product)) {
+		if (!(obj instanceof _Product)) {
 			return false;
 		}
-		Product other = (Product) obj;
+		_Product other = (_Product) obj;
 		if (id == null) {
 			if (other.id != null) {
 				return false;
@@ -487,4 +398,4 @@ public class Product implements Serializable {
 		return true;
 	}
 
-}
+*/}

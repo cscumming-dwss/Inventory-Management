@@ -51,7 +51,7 @@ public class ProductForm extends ProductFormDesign {
 //        }
 
         fieldGroup = new BeanFieldGroup<Product>(Product.class);
-      //  fieldGroup.bindMemberFields(this);
+        fieldGroup.bindMemberFields(this);
 
         // perform validation and enable/disable buttons while editing
         ValueChangeListener valueListener = new ValueChangeListener() {
@@ -126,8 +126,8 @@ public class ProductForm extends ProductFormDesign {
         fieldGroup.setItemDataSource(new BeanItem<Product>(product));
 
         // before the user makes any changes, disable validation error indicator
-        // of the product name field (which may be empty)
-        productName.setValidationVisible(false);
+        // of the product name field (which may be empty) *substitute serialcode maybe we don't need this field
+        //productName.setValidationVisible(false);
 
         // Scroll to the top
         // As this is not a Panel, using JavaScript
@@ -138,14 +138,17 @@ public class ProductForm extends ProductFormDesign {
 
     private void formHasChanged() {
         // show validation errors after the user has changed something
-        productName.setValidationVisible(true);
+        //productName.setValidationVisible(true);
 
         // only products that have been saved should be removable
         boolean canRemoveProduct = false;
+        int idValue = 0;
         BeanItem<Product> item = fieldGroup.getItemDataSource();
         if (item != null) {
             Product product = item.getBean();
-            canRemoveProduct = product.getId() != -1;
+            idValue = product.getId();
+            if (idValue <= 0)
+            	canRemoveProduct = false;
         }
         delete.setEnabled(canRemoveProduct);
     }
