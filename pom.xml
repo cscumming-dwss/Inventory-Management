@@ -115,6 +115,11 @@
 		   <artifactId>easyuploads</artifactId>
 		   <version>7.4.10</version>
 		</dependency>
+		<dependency>
+		   <groupId>org.vaadin.addons</groupId>
+		   <artifactId>simplefiledownloader</artifactId>
+		   <version>1.0.4</version>
+		</dependency>
 
 	</dependencies>
 	
