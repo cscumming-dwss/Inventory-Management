@@ -36,15 +36,16 @@ public class Product implements Serializable {
 	@Id
 	@Basic(optional = false)
 	@NotNull
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	// #ISSUE 18 ID not generatred 
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name = "id")
 	private Integer id = -1;
     //@OneToMany
     //private Set<Category> category;
 	
 	@Column(name="Barcode", columnDefinition = "NVarChar(50)")
-	@Size(min = 1, max = 50)
 	@NotNull
+	// Issue #21 Constraint Violation
     private String barCode = new String();
 	
 	@Column(name="Propertytag", columnDefinition = "NVarChar(50)")
