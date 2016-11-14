@@ -1,6 +1,8 @@
 package example.test;
 
+import java.text.DecimalFormat;
 import java.util.Collection;
+import java.util.Locale;
 
 import com.vaadin.data.util.BeanItem;
 import com.vaadin.data.util.BeanItemContainer;
@@ -8,6 +10,8 @@ import com.vaadin.data.util.MethodProperty;
 import com.vaadin.data.util.filter.Or;
 import com.vaadin.data.util.filter.SimpleStringFilter;
 import com.vaadin.ui.Grid;
+import com.vaadin.ui.renderers.DateRenderer;
+import com.vaadin.ui.renderers.NumberRenderer;
 
 import example.test.backend.data.Product;
 
@@ -65,9 +69,12 @@ public class ProductGrid extends Grid {
         
         removeColumn("id");
         removeColumn("showComments");
+        removeColumn("comments");
         removeColumn("operator");
         removeColumn("tech");
         removeColumn("LU");
+        removeColumn("historyLog");
+        removeColumn("locationType");
         
 /*
         // Show empty stock as "-"
@@ -89,7 +96,15 @@ public class ProductGrid extends Grid {
  //               .setRenderer(new HtmlRenderer());
 
         // Add " $" automatically after price
+        //add renderers on grid so they display correctly ISSUE #15
         getColumn("cost").setConverter(new DollarConverter());
+        getColumn("dateEntered").setRenderer(new DateRenderer(" %1$tm/%1$td/%1$ty", Locale.US));
+        getColumn("dateReceived").setRenderer(new DateRenderer(" %1$tm/%1$td/%1$ty", Locale.US));
+        getColumn("verifiedDate").setRenderer(new DateRenderer(" %1$tm/%1$td/%1$ty", Locale.US));
+        getColumn("repApproved").setRenderer(new DateRenderer(" %1$tm/%1$td/%1$ty", Locale.US));
+        getColumn("inventoryDate").setRenderer(new DateRenderer(" %1$tm/%1$td/%1$ty", Locale.US));
+        getColumn("heatTicket").setRenderer(new NumberRenderer(new DecimalFormat("########")));
+        
 
         // Show categories as a comma separated list
        // getColumn("category").setConverter(new CollectionToStringConverter());
