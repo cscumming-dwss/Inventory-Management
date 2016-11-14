@@ -1,22 +1,14 @@
 package example.test;
 
 import java.util.Collection;
-import java.util.Locale;
 
 import com.vaadin.data.util.BeanItem;
 import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.data.util.MethodProperty;
-import com.vaadin.data.util.converter.Converter;
-import com.vaadin.data.util.converter.StringToEnumConverter;
-import com.vaadin.data.util.converter.StringToIntegerConverter;
 import com.vaadin.data.util.filter.Or;
 import com.vaadin.data.util.filter.SimpleStringFilter;
-import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.Grid;
-import com.vaadin.ui.renderers.HtmlRenderer;
 
-import example.test.VaadinUI;
-import example.test.backend.data.Availability;
 import example.test.backend.data.Product;
 
 /**
@@ -70,6 +62,12 @@ public class ProductGrid extends Grid {
         setColumnOrder("barCode", "propertyTag", "serialCode", "dateEntered", "office", "description",
                 "assetType","assetModel","manufacturer","unit","comments","historyLog","vendor","dateReceived","purchaseOrder","budgetCode",
                 "verifiedDate","computerRelated","excessed","locationCode","repApproved","itemReplaced","inventoryDate","isEquipment","heatTicket");
+        
+        removeColumn("id");
+        removeColumn("showComments");
+        removeColumn("operator");
+        removeColumn("tech");
+        removeColumn("LU");
         
 /*
         // Show empty stock as "-"
