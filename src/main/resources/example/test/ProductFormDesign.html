@@ -18,12 +18,12 @@
 						<v-text-field caption="Serial" _id="serialCode" width-full />
 					</v-vertical-layout>
         			<v-vertical-layout width-full margin spacing :expand>
-    	    			<v-text-field caption="Manufacturer" _id="manufacturer" width-full />
+    	    			<v-combo-box caption="Manufacturer" _id="manufacturer" width-full />
     	    			<v-text-field caption="Model" _id="assetModel" width-full />
         				<v-text-field caption="Description" _id="description" width-full />
         			</v-vertical-layout>
         			<v-vertical-layout width-full margin spacing :expand>
-	        			<v-text-field caption="Type" _id="assettype" width-full />
+	        			<v-combo-box caption="Type" _id="assettype" width-full />
         			</v-vertical-layout>
         		</v-horizontal-layout>
         		<!--  Next Set -->        		
@@ -41,7 +41,7 @@
         			</v-vertical-layout>
         			<v-vertical-layout width-full margin spacing :expand>
 	        			<v-text-field caption="Heat Ticket:" _id="heatTicket" width-full />
-	        			<v-date-field caption="Verified Date:" _id="verifiedDate" width-full />
+	        			<v-date-field caption="Verified Date:" _id="verifiedDate" margin spacing width-full />
 	        			<v-check-box caption="excessed" _id="excessed" width-full />
         			</v-vertical-layout>
         		</v-horizontal-layout>
@@ -59,7 +59,7 @@
         				<v-text-field caption="Cost" _id="cost" width-full />
         			</v-vertical-layout>
         			<v-vertical-layout width-full margin spacing :expand>
-	        			<v-text-field caption="Vendor:" _id="vendor" width-full />
+	        			<v-combo-box caption="Vendor:" _id="vendor" width-full />
 	        			<v-date-field caption="Rep Approved:" _id="repApproved" width-full />
 	        			<v-date-field caption="Inventoried" _id="inventoryDate" width-full />
         			</v-vertical-layout>
@@ -67,11 +67,11 @@
         		
         	</v-form-layout>
 
-        <v-text-area caption="Comments" _id="comments" width-full responsive />
-        <v-text-area caption="History Log" _id="historyLog" width-full responsive />
+        <v-text-area caption="Comments" _id="comments" margin spacing width-full responsive />
+        <v-text-area caption="History Log" _id="historyLog" margin spacing width-full responsive />
         
         <v-css-layout :expand style-name="expander" />
-		<v-horizontal-layout>
+		<v-horizontal-layout margin spacing width-full responsive >
         		<v-button style-name="primary" _id="save">Save</v-button>
         		<v-button style-name="cancel" _id="cancel" click-shortcut="escape">Cancel</v-button>
         		<v-button style-name="danger" _id="delete">Delete</v-button>

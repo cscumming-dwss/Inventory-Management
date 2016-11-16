@@ -1,5 +1,6 @@
 package example.test;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 import com.vaadin.data.Property.ValueChangeEvent;
@@ -9,6 +10,7 @@ import com.vaadin.data.fieldgroup.FieldGroup.CommitEvent;
 import com.vaadin.data.fieldgroup.FieldGroup.CommitException;
 import com.vaadin.data.fieldgroup.FieldGroup.CommitHandler;
 import com.vaadin.data.util.BeanItem;
+import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.server.Page;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
@@ -16,11 +18,9 @@ import com.vaadin.ui.Field;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.Notification.Type;
 
-import example.test.VaadinUI;
-import example.test.backend.DataService;
-import example.test.backend.data.Availability;
-import example.test.backend.data.Category;
+import example.test.backend.data.Manufacturer;
 import example.test.backend.data.Product;
+import example.test.backend.data.Vendor;
 
 /**
  * A form for editing a single product.
@@ -30,20 +30,31 @@ import example.test.backend.data.Product;
  * side of the view or filling the whole screen - see the theme for the related
  * CSS rules.
  * Note: you can only override the CSS by creating and compiling your own Vaadin theme to override the Valo Theme defaults
+ * 
+ *  setContainerDataSource(
+                new BeanItemContainer(Product.class, ui.getProductRepository().findAll()));    
  */
 public class ProductForm extends ProductFormDesign {
 
     private SampleCrudLogic viewLogic;
     private BeanFieldGroup<Product> fieldGroup;
+    private BeanFieldGroup<Manufacturer> mfieldGroup;
+    private BeanFieldGroup<Vendor> vfieldGroup;
 
     public ProductForm(SampleCrudLogic sampleCrudLogic) {
         super();
         addStyleName("product-form");
+        setResponsive(true);
         //Experiment with setting size
         setSizeFull();
         viewLogic = sampleCrudLogic;
 
         cost.setConverter(new DollarConverter());
+        
+        verifiedDate.setResponsive(true);
+        verifiedDate.setStyleName("valo");
+        verifiedDate.setStyleName("DATEFIELD_ALIGN_RIGHT", true);
+        System.out.println(verifiedDate.getStyleName());
         
 //   Comment out - unless we need an example for a combo box  10/21/16
 //        for (Availability s : Availability.values()) {
@@ -51,8 +62,16 @@ public class ProductForm extends ProductFormDesign {
 //        }
 
         fieldGroup = new BeanFieldGroup<Product>(Product.class);
+        mfieldGroup = new BeanFieldGroup<Manufacturer>(Manufacturer.class);
+        vfieldGroup = new BeanFieldGroup<Vendor>(Vendor.class);
+        
+        
         fieldGroup.bindMemberFields(this);
 
+        mfieldGroup.bind(this.manufacturer, "entry");
+        vfieldGroup.bind(this.vendor, "entry");
+        System.out.println(verifiedDate.getStyleName());
+        
         // perform validation and enable/disable buttons while editing
         ValueChangeListener valueListener = new ValueChangeListener() {
             @Override
@@ -119,11 +138,48 @@ public class ProductForm extends ProductFormDesign {
         category.setOptions(categories);
     }
 */
+    public void setManufacturers(Collection<Manufacturer> manufacturers) {
+//        getContainer().removeAllItems();
+    	Collection<String> entries = new ArrayList<String>();
+    	manufacturers.forEach(e -> entries.add(e.getEntry()));
+    	manufacturer.addItems(entries);
+    	
+    	
+    	
+    	//manufacturer.setContainerDataSource(new BeanItemContainer<Manufacturer>(Manufacturer.class, entries));
+    	BeanItemContainer bic = new BeanItemContainer<Manufacturer>(Manufacturer.class, manufacturers);
+    	
+    	//manufacturer.setContainerDataSource(new BeanItemContainer<Manufacturer>(Manufacturer.class, manufacturers));
+    	Collection propertyids = bic.getContainerPropertyIds();
+    	
+    	   
+    	
+    	
+    }
+
+    public void setVendors(Collection<Vendor> vendors) {
+  	Collection<String> entries = new ArrayList<String>();
+  	vendors.forEach(e -> entries.add(e.getEntry()));
+  	vendor.addItems(entries);
+  }
+    
+    public void setTypes(Collection<example.test.backend.data.Type> types) {
+  	Collection<String> entries = new ArrayList<String>();
+  	types.forEach(e -> entries.add(e.getEntry()));
+  	assetType.addItems(entries);
+  }
+
+    
+    
     public void editProduct(Product product) {
-        if (product == null) {
+    	
+    	if (product == null) {
             product = new Product();
+            
         }
         fieldGroup.setItemDataSource(new BeanItem<Product>(product));
+        
+//        mfieldGroup.setItemDataSource(new BeanItem<Manufacturer>(manufacturer));
 
         // before the user makes any changes, disable validation error indicator
         // of the product name field (which may be empty) *substitute serialcode maybe we don't need this field

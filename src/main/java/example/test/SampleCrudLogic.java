@@ -1,11 +1,13 @@
 package example.test;
 
-import example.test.VaadinUI;
-import example.test.backend.DataService;
-import example.test.backend.data.Product;
-
 import java.io.Serializable;
+import java.util.List;
+
 import com.vaadin.server.Page;
+
+import example.test.backend.data.Manufacturer;
+import example.test.backend.data.ManufacturerRepository;
+import example.test.backend.data.Product;
 
 /**
  * This class provides an interface for the logical operations between the CRUD
@@ -32,6 +34,11 @@ public class SampleCrudLogic implements Serializable {
         }
 
         view.showProducts(VaadinUI.get().getProductRepository().findAll());
+        view.showManufacturers(VaadinUI.get().getManufacturerRepository().findAll());
+        view.showVendors(VaadinUI.get().getVendorRepository().findAll());
+        view.showTypes(VaadinUI.get().getTypeRepository().findAll());
+        
+        System.out.println("woops");
     }
 
     public void cancelProduct() {

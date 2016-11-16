@@ -3,6 +3,9 @@
 	<persistence-unit name="Experimental">
 	 <class>example.test.backend.data.Product</class>
 	 <class>example.test.backend.data.Category</class>
+	 <class>example.test.backend.data.Manufacturer</class>
+	 <class>example.test.backend.data.Vendor</class>
+	 <class>example.test.backend.data.Type</class>
 
     <properties>
         <property name="javax.persistence.jdbc.url" value="jdbc:sqlserver://localhost:1434;databaseName=InventoryTest;integratedSecurity=true"/>

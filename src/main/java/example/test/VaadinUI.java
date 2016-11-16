@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.Viewport;
-import com.vaadin.annotations.Widgetset;
 import com.vaadin.cdi.CDIUI;
 import com.vaadin.server.Responsive;
 import com.vaadin.server.VaadinRequest;
@@ -16,7 +15,10 @@ import example.test.authentication.AccessControl;
 import example.test.authentication.BasicAccessControl;
 import example.test.authentication.LoginScreen;
 import example.test.authentication.LoginScreen.LoginListener;
+import example.test.backend.data.ManufacturerRepository;
 import example.test.backend.data.ProductRepository;
+import example.test.backend.data.TypeRepository;
+import example.test.backend.data.VendorRepository;
 
 /**
  * Main UI class of the application that shows either the login screen or the
@@ -45,6 +47,14 @@ public class VaadinUI extends UI {
 	
     @Autowired
     ProductRepository pRepository;
+    @Autowired
+    ManufacturerRepository mRepository;
+    @Autowired
+    VendorRepository vRepository;
+    @Autowired
+    TypeRepository tRepository;
+    //@Autowired
+    //OfficeRepository oRepository;
     //private MTable<Customer> g;
 
     @Override
@@ -76,6 +86,18 @@ public class VaadinUI extends UI {
 
     public ProductRepository getProductRepository(){
     	return pRepository;
+    }
+    
+    public VendorRepository getVendorRepository() {
+		return vRepository;
+	}
+
+	public TypeRepository getTypeRepository() {
+		return tRepository;
+	}
+
+	public ManufacturerRepository getManufacturerRepository(){
+    	return mRepository;
     }
     
     public AccessControl getAccessControl() {

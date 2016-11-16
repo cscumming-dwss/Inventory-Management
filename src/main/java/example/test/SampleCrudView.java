@@ -2,6 +2,8 @@ package example.test;
 
 import java.util.Collection;
 
+import org.vaadin.resetbuttonfortextfield.ResetButtonForTextField;
+
 import com.vaadin.event.FieldEvents;
 import com.vaadin.event.SelectionEvent;
 import com.vaadin.event.SelectionEvent.SelectionListener;
@@ -20,11 +22,8 @@ import com.vaadin.ui.Notification.Type;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.themes.ValoTheme;
-import org.vaadin.ui.client.numberfield.*;
-import org.vaadin.resetbuttonfortextfield.*;
 
-import example.test.VaadinUI;
-import example.test.backend.DataService;
+import example.test.backend.data.Manufacturer;
 import example.test.backend.data.Product;
 
 /**
@@ -153,6 +152,18 @@ public class SampleCrudView extends CssLayout implements View {
         grid.setProducts(products);
     }
 
+    public void showManufacturers(Collection<Manufacturer> manufacturers) {
+        form.setManufacturers(manufacturers);
+    }
+    public void showVendors(Collection<example.test.backend.data.Vendor> vendors) {
+        form.setVendors(vendors);
+    }
+    public void showTypes(Collection<example.test.backend.data.Type> types) {
+        form.setTypes(types);
+    }
+
+
+    
     public void refreshProduct(Product product) {
         grid.refresh(product);
         grid.scrollTo(product);
