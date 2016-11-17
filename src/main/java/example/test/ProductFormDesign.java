@@ -37,13 +37,13 @@ public class ProductFormDesign extends CssLayout {
     protected TextField office;
     protected CheckBox  computerRelated;
     protected TextField unit;
-    protected TextField notes;
     protected CheckBox  isEquipment;
     protected TextField heatTicket;
     protected DateField verifiedDate;
     protected CheckBox  excessed;
     protected DateField dateEntered;
     protected DateField dateReceived;
+    protected CheckBox 	itemReplaced;
 //    protected TextField fourYearReplacement;
     protected TextField budgetCode;
     protected TextField purchaseOrder;
@@ -51,6 +51,7 @@ public class ProductFormDesign extends CssLayout {
     protected ComboBox  vendor;
     protected DateField repApproved;
     protected DateField inventoryDate;
+    protected TextArea  notes;
     protected TextArea  comments;
     protected TextArea  historyLog;
 //    protected example.test.NumberField stockCount;

@@ -36,7 +36,6 @@
 					</v-vertical-layout>
         			<v-vertical-layout width-full margin spacing :expand>
     	    			<v-text-field caption="Unit" _id="unit" width-full />
-    	    			<v-text-field caption="Notes" _id="notes" width-full />
         				<v-check-box caption="IS Equipment" _id="isEquipment" width-full />
         			</v-vertical-layout>
         			<v-vertical-layout width-full margin spacing :expand>
@@ -52,6 +51,7 @@
 					<v-vertical-layout width-full margin spacing :expand>
 					    <v-date-field caption="Date Entered: " _id="dateEntered" />
 						<v-date-field caption="Date Received:" _id="dateReceived" width-full />
+	        			<v-date-field caption="Inventoried" _id="inventoryDate" width-full />
 					</v-vertical-layout>
         			<v-vertical-layout width-full margin spacing :expand>
     	    			<v-text-field caption="Budget Acct" _id="budgetCode" width-full />
@@ -61,17 +61,18 @@
         			<v-vertical-layout width-full margin spacing :expand>
 	        			<v-combo-box caption="Vendor:" _id="vendor" width-full />
 	        			<v-date-field caption="Rep Approved:" _id="repApproved" width-full />
-	        			<v-date-field caption="Inventoried" _id="inventoryDate" width-full />
+	        			<v-check-box caption="Item Replaced" _id="itemReplaced" width-full />
         			</v-vertical-layout>
         		</v-horizontal-layout>
         		
         	</v-form-layout>
 
+        <v-text-area caption="Notes" _id="notes" margin spacing width:80% responsive />
         <v-text-area caption="Comments" _id="comments" margin spacing width-full responsive />
         <v-text-area caption="History Log" _id="historyLog" margin spacing width-full responsive />
         
         <v-css-layout :expand style-name="expander" />
-		<v-horizontal-layout margin spacing width-full responsive >
+		<v-horizontal-layout margin spacing width:75% responsive >
         		<v-button style-name="primary" _id="save">Save</v-button>
         		<v-button style-name="cancel" _id="cancel" click-shortcut="escape">Cancel</v-button>
         		<v-button style-name="danger" _id="delete">Delete</v-button>

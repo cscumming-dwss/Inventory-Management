@@ -11,19 +11,27 @@ import com.vaadin.data.util.filter.Or;
 import com.vaadin.data.util.filter.SimpleStringFilter;
 import com.vaadin.ui.Grid;
 import com.vaadin.ui.renderers.DateRenderer;
+import com.vaadin.ui.renderers.HtmlRenderer;
 import com.vaadin.ui.renderers.NumberRenderer;
 
 import example.test.backend.data.Product;
+import example.test.BooleanToStringConverter;
 
 /**
- * Grid of products, handling the visual presentation and filtering of a set of
+ * Grid of items (orignal code copied from Vaadin is very fragile - particularly the html and the codes relation to it, only slight changes can cause
+ * it to fail to display without any straightforward method of debugging it : hence I have not refactored) 
+ * handling the visual presentation and filtering of a set of
  * items. This version uses an in-memory data source that is suitable for small
  * data sets.
  */
 public class ProductGrid extends Grid {
 
+	private BooleanToStringConverter booleanToStringConverter = new BooleanToStringConverter(); 
 /*  Comment out : this is used to convert an Enum to String and append a colored cirle icon next to it
  * 
+ *    
+ *     
+ *     
  *     private StringToEnumConverter availabilityConverter = new StringToEnumConverter() {
         @Override
         public String convertToPresentation(Enum availability,
@@ -50,6 +58,10 @@ public class ProductGrid extends Grid {
             return iconCode + " " + text;
         };
     };
+
+
+
+
 
 */    public ProductGrid(VaadinUI ui) {
         setSizeFull();
@@ -104,7 +116,7 @@ public class ProductGrid extends Grid {
         getColumn("repApproved").setRenderer(new DateRenderer(" %1$tm/%1$td/%1$ty", Locale.US));
         getColumn("inventoryDate").setRenderer(new DateRenderer(" %1$tm/%1$td/%1$ty", Locale.US));
         getColumn("heatTicket").setRenderer(new NumberRenderer(new DecimalFormat("########")));
-        
+        getColumn("computerRelated").setConverter(booleanToStringConverter).setRenderer(new HtmlRenderer());
 
         // Show categories as a comma separated list
        // getColumn("category").setConverter(new CollectionToStringConverter());

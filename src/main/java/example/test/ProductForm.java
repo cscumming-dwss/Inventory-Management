@@ -2,6 +2,7 @@ package example.test;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.Property.ValueChangeListener;
@@ -52,9 +53,6 @@ public class ProductForm extends ProductFormDesign {
         cost.setConverter(new DollarConverter());
         
         verifiedDate.setResponsive(true);
-        verifiedDate.setStyleName("valo");
-        verifiedDate.setStyleName("DATEFIELD_ALIGN_RIGHT", true);
-        System.out.println(verifiedDate.getStyleName());
         
 //   Comment out - unless we need an example for a combo box  10/21/16
 //        for (Availability s : Availability.values()) {
@@ -139,22 +137,16 @@ public class ProductForm extends ProductFormDesign {
     }
 */
     public void setManufacturers(Collection<Manufacturer> manufacturers) {
-//        getContainer().removeAllItems();
-    	Collection<String> entries = new ArrayList<String>();
+    	manufacturer.setNullSelectionAllowed(false);
+    	List<String> entries = new ArrayList<String>();
     	manufacturers.forEach(e -> entries.add(e.getEntry()));
     	manufacturer.addItems(entries);
-    	
-    	
-    	
+
     	//manufacturer.setContainerDataSource(new BeanItemContainer<Manufacturer>(Manufacturer.class, entries));
     	BeanItemContainer bic = new BeanItemContainer<Manufacturer>(Manufacturer.class, manufacturers);
     	
     	//manufacturer.setContainerDataSource(new BeanItemContainer<Manufacturer>(Manufacturer.class, manufacturers));
     	Collection propertyids = bic.getContainerPropertyIds();
-    	
-    	   
-    	
-    	
     }
 
     public void setVendors(Collection<Vendor> vendors) {
