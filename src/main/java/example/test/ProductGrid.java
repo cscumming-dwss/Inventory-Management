@@ -67,7 +67,7 @@ public class ProductGrid extends Grid {
         setSizeFull();
 
         setSelectionMode(SelectionMode.SINGLE);
-
+        
         //BeanItemContainer<Product> container = new BeanItemContainer<Product>(
         //        Product.class);
         setContainerDataSource(

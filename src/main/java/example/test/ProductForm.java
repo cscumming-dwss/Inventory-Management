@@ -66,9 +66,10 @@ public class ProductForm extends ProductFormDesign {
         
         fieldGroup.bindMemberFields(this);
 
-        mfieldGroup.bind(this.manufacturer, "entry");
-        vfieldGroup.bind(this.vendor, "entry");
-        System.out.println(verifiedDate.getStyleName());
+        dateEntered.setDateFormat("     MM/dd/yyyy");
+        //mfieldGroup.bind(this.manufacturer, "entry");
+        //vfieldGroup.bind(this.vendor, "entry");
+        //System.out.println(verifiedDate.getStyleName());
         
         // perform validation and enable/disable buttons while editing
         ValueChangeListener valueListener = new ValueChangeListener() {
