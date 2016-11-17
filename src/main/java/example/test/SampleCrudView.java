@@ -1,6 +1,7 @@
 package example.test;
 
 import java.util.Collection;
+import java.util.List;
 
 import org.vaadin.resetbuttonfortextfield.ResetButtonForTextField;
 
@@ -15,6 +16,7 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.CssLayout;
+import com.vaadin.ui.Grid;
 import com.vaadin.ui.Grid.SelectionModel;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Notification;
@@ -47,6 +49,12 @@ public class SampleCrudView extends CssLayout implements View {
         HorizontalLayout topLayout = createTopBar();
 
         grid = new ProductGrid(ui);
+        grid.setColumnReorderingAllowed(true);
+        List<Grid.Column> colList = grid.getColumns();
+        for (Grid.Column tempCol : colList) {
+        	tempCol.setHidable(true);
+        }
+        
         grid.addSelectionListener(new SelectionListener() {
 
             @Override
