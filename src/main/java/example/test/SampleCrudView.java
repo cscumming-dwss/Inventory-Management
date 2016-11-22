@@ -1,10 +1,26 @@
 package example.test;
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+import java.util.Locale;
 
+import org.vaadin.addons.ExportExcelComponentConfiguration;
+import org.vaadin.addons.ExportExcelConfiguration;
+import org.vaadin.addons.ExportExcelSheetConfiguration;
+import org.vaadin.addons.ExportToExcelUtility;
+import org.vaadin.addons.ExportType;
+import org.vaadin.addons.builder.ExportExcelComponentConfigurationBuilder;
+import org.vaadin.addons.builder.ExportExcelConfigurationBuilder;
+import org.vaadin.addons.builder.ExportExcelSheetConfigurationBuilder;
+import org.vaadin.easyuploads.UploadField;
+import org.vaadin.easyuploads.UploadField.FieldType;
+import org.vaadin.easyuploads.UploadField.StorageMode;
 import org.vaadin.resetbuttonfortextfield.ResetButtonForTextField;
 
+import com.vaadin.data.Property;
 import com.vaadin.event.FieldEvents;
 import com.vaadin.event.SelectionEvent;
 import com.vaadin.event.SelectionEvent.SelectionListener;
@@ -17,6 +33,7 @@ import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.Grid;
+import com.vaadin.ui.Grid.Column;
 import com.vaadin.ui.Grid.SelectionModel;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Notification;
@@ -37,16 +54,19 @@ import example.test.backend.data.Product;
 public class SampleCrudView extends CssLayout implements View {
 
     public static final String VIEW_NAME = "Inventory";
+    private VaadinUI ui;
     private ProductGrid grid;
     private ProductForm form;
 
     private SampleCrudLogic viewLogic = new SampleCrudLogic(this);
     private Button newProduct;
+    private Button exportGrid;
+    private UploadField uplDoc;    
 
     public SampleCrudView(VaadinUI ui) {
+    	this.ui = ui;
         setSizeFull();
         addStyleName("crud-view");
-        HorizontalLayout topLayout = createTopBar();
 
         grid = new ProductGrid(ui);
         grid.setColumnReorderingAllowed(true);
@@ -63,6 +83,8 @@ public class SampleCrudView extends CssLayout implements View {
             }
         });
 
+        HorizontalLayout topLayout = createTopBar();
+        
         form = new ProductForm(viewLogic);
         // to be implemented getting offices codes from database
         //form.setCategories(DataService.get().getAllCategories());
@@ -95,6 +117,78 @@ public class SampleCrudView extends CssLayout implements View {
             }
         });
 
+        exportGrid = new Button("Export");
+        exportGrid.addStyleName(ValoTheme.BUTTON_DANGER);
+        exportGrid.addClickListener(new ClickListener() {
+            @Override
+            public void buttonClick(ClickEvent event) {
+                /* Configuring Components */
+                Collection c = grid.getContainerDataSource().getContainerPropertyIds();
+                ExportExcelComponentConfiguration componentConfig1 = 
+                		new ExportExcelComponentConfigurationBuilder().withGrid(grid) //Your Table or component goes here
+                                                                      .withVisibleProperties(grid.getVisibleColumns())
+                                                                      .withColumnHeaderKeys(grid.getHeaderColumns())
+                                                                      .withBooleanFormattingProperties(new ArrayList<String>(Arrays.asList("computerRelated")))
+                                                                      .withIntegerFormattingProperties(new ArrayList<String>(Arrays.asList("cost","heatTicket")))
+                                                                      .withDateFormattingProperties(new ArrayList<String>(Arrays.asList("dateEntered",
+                                                                    		  															"dateReceived",
+                                                                    		  															"verifiedDate",
+                                                                    		  															"repApproved",
+                                                                    		  															"inventoryDate")))
+//                                                                      .withColumnFormatters(new ArrayList<String>(Arrays.asList(a)))
+//                                                                    .withColumnHeaderKeys(this.grid.getColumnHeaders()) 
+                                                                      .build();
+                /* Configuring Sheets */
+                ArrayList<ExportExcelComponentConfiguration> componentList1 = new ArrayList<ExportExcelComponentConfiguration>();
+                componentList1.add(componentConfig1);
+
+                ExportExcelSheetConfiguration sheetConfig1 = new ExportExcelSheetConfigurationBuilder().withSheetName("DWSS IT Assets")
+                                                                                                       .withComponentConfigs(componentList1)
+                                                                                                       .withIsHeaderSectionRequired(Boolean.FALSE)
+                                                                                                       .build();
+
+                ui.getCurrent().setLocale(Locale.US);
+//                sheetConfig1.setDateFormat(" %1$tm/%1$td/%1$ty");
+                sheetConfig1.setDateFormat("mm/dd/yyyy");
+                /* Configuring Excel */
+                ArrayList<ExportExcelSheetConfiguration> sheetList = new ArrayList<ExportExcelSheetConfiguration>();
+                sheetList.add(sheetConfig1);
+
+                ExportExcelConfiguration config1 = new ExportExcelConfigurationBuilder().withGeneratedBy("DWSS Inventory ")
+                                                                                        .withSheetConfigs(sheetList)
+                                                                                        .build();
+
+                ExportToExcelUtility<Product> exportToExcelUtility = new ExportToExcelUtility<Product>(ui.getCurrent(), config1, Product.class);
+                exportToExcelUtility.setSourceUI(ui.getCurrent());
+                exportToExcelUtility.setResultantExportType(ExportType.XLSX);
+                exportToExcelUtility.export();
+            }
+        });
+        
+        uplDoc = new UploadField(StorageMode.FILE);
+        uplDoc.setFieldType(FieldType.FILE);
+        
+        uplDoc.setButtonCaption("Import");
+        uplDoc.addStyleName(ValoTheme.BUTTON_QUIET);
+        
+        uplDoc.addValueChangeListener(new Property.ValueChangeListener() {
+        	@Override
+        	public void valueChange(Property.ValueChangeEvent event) {
+        		Notification.show("File Uplaoaded" + uplDoc.getValue() + ' ' + uplDoc.isEmpty());
+        		File newfile = (File)uplDoc.getValue();
+        		CsvToEntityConverter csvConvert = new CsvToEntityConverter(newfile, ui.getProductRepository());
+        		
+        		try {
+        			csvConvert.processFile();
+        		} catch (Exception e) {
+        		Notification.show("Unexpected File exception: Try again");
+        		System.out.println(e.getMessage() + " File error!");
+        		}
+        	}
+        });
+        
+
+        
         newProduct = new Button("New Asset");
         newProduct.addStyleName(ValoTheme.BUTTON_PRIMARY);
         newProduct.setIcon(FontAwesome.PLUS_CIRCLE);
@@ -110,6 +204,8 @@ public class SampleCrudView extends CssLayout implements View {
         topLayout.setWidth("100%");
         topLayout.addComponent(filter);
         topLayout.addComponent(newProduct);
+        topLayout.addComponent(exportGrid);
+        topLayout.addComponent(uplDoc);
         topLayout.setComponentAlignment(filter, Alignment.MIDDLE_LEFT);
         topLayout.setExpandRatio(filter, 1);
         topLayout.setStyleName("top-bar");

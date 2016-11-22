@@ -1,7 +1,9 @@
 package example.test;
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Locale;
 
 import com.vaadin.data.util.BeanItem;
@@ -15,7 +17,6 @@ import com.vaadin.ui.renderers.HtmlRenderer;
 import com.vaadin.ui.renderers.NumberRenderer;
 
 import example.test.backend.data.Product;
-import example.test.BooleanToStringConverter;
 
 /**
  * Grid of items (orignal code copied from Vaadin is very fragile - particularly the html and the codes relation to it, only slight changes can cause
@@ -27,43 +28,8 @@ import example.test.BooleanToStringConverter;
 public class ProductGrid extends Grid {
 
 	private BooleanToStringConverter booleanToStringConverter = new BooleanToStringConverter(); 
-/*  Comment out : this is used to convert an Enum to String and append a colored cirle icon next to it
- * 
- *    
- *     
- *     
- *     private StringToEnumConverter availabilityConverter = new StringToEnumConverter() {
-        @Override
-        public String convertToPresentation(Enum availability,
-                java.lang.Class<? extends String> targetType, Locale locale)
-                throws Converter.ConversionException {
-            String text = super.convertToPresentation(availability, targetType,
-                    locale);
 
-            String color = "";
-            if (availability == Availability.AVAILABLE) {
-                color = "#2dd085";
-            } else if (availability == Availability.COMING) {
-                color = "#ffc66e";
-            } else if (availability == Availability.DISCONTINUED) {
-                color = "#f54993";
-            }
-
-            String iconCode = "<span class=\"v-icon\" style=\"font-family: "
-                    + FontAwesome.CIRCLE.getFontFamily() + ";color:" + color
-                    + "\">&#x"
-                    + Integer.toHexString(FontAwesome.CIRCLE.getCodepoint())
-                    + ";</span>";
-
-            return iconCode + " " + text;
-        };
-    };
-
-
-
-
-
-*/    public ProductGrid(VaadinUI ui) {
+    public ProductGrid(VaadinUI ui) {
         setSizeFull();
 
         setSelectionMode(SelectionMode.SINGLE);
@@ -102,11 +68,7 @@ public class ProductGrid extends Grid {
                 return super.convertToPresentation(value, targetType, locale);
             };
         });
-
-*/        // Add an traffic light icon in front of availability
-//        getColumn("availability").setConverter(availabilityConverter)
- //               .setRenderer(new HtmlRenderer());
-
+		*/
         // Add " $" automatically after price
         //add renderers on grid so they display correctly ISSUE #15
         getColumn("cost").setConverter(new DollarConverter());
@@ -187,5 +149,33 @@ public class ProductGrid extends Grid {
 
     public void remove(Product product) {
         getContainer().removeItem(product);
+    }
+    
+    public Object[] getVisibleColumns() {
+        List<Column> theCols = this.getColumns();
+        List<Column> visCols = new ArrayList<Column>();
+        
+        for (Grid.Column gcolumn : theCols) {
+        	if (!gcolumn.isHidden()) {
+        		visCols.add(gcolumn);
+        	}
+        }
+    	return visCols.toArray();
+    }
+    
+    public String[] getHeaderColumns() {
+    	List<String> visCols = new ArrayList<String>();
+
+    	//Remove hidden columns
+        for (Grid.Column gcolumn : this.getColumns()) {
+        	if (!gcolumn.isHidden()) {
+        		visCols.add(gcolumn.getHeaderCaption());
+        	}
+        }
+    	    	
+//    	return new String[] {"barCode", "propertyTag", "serialCode", "dateEntered", "office", "description",
+//                "assetType","assetModel","manufacturer","unit","comments","historyLog","vendor","dateReceived","purchaseOrder","budgetCode",
+//                "verifiedDate","computerRelated","excessed","locationCode","repApproved","itemReplaced","inventoryDate","isEquipment","heatTicket"};    	
+    	return visCols.toArray(new String[0]);
     }
 }
