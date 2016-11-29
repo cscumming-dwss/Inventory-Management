@@ -6,7 +6,6 @@
 	<groupId>example.test</groupId>
 	<artifactId>Experimental</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>jar</packaging>
 
 	<name>Experimental</name>
 	<description>Test project for Spring Boot/Vaadin/JPA</description>
@@ -60,6 +59,10 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+	    <dependency>
+	        <groupId>org.springframework.boot</groupId>
+	        <artifactId>spring-boot-starter-actuator</artifactId>
+	    </dependency>
         <dependency>
             <groupId>com.microsoft.sqlserver</groupId>
             <artifactId>sqljdbc4</artifactId>
@@ -113,18 +116,18 @@
 		<dependency>
 		   <groupId>org.vaadin.addon</groupId>
 		   <artifactId>easyuploads</artifactId>
-		   <version>7.4.1</version>
+		   <version>7.4.10</version>
 		</dependency>
 		<dependency>
 		   <groupId>org.vaadin.addons</groupId>
 		   <artifactId>simplefiledownloader</artifactId>
 		   <version>1.0.4</version>
 		</dependency>
-<!-- 	<dependency>
+	 	<dependency>
 		   <groupId>org.vaadin.addons</groupId>
 		   <artifactId>vaadin-excel-exporter</artifactId>
 		   <version>1.0.3</version>
-		</dependency>  -->	
+		</dependency> 	
 		<dependency>
     		<groupId>org.apache.poi</groupId>
     		<artifactId>poi-ooxml</artifactId>
@@ -164,7 +167,14 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
-			</plugin>
+   		        <executions>
+		          <execution>
+		            <goals>
+		              <goal>repackage</goal>
+		            </goals>
+		          </execution>
+		        </executions>			
+		    </plugin>
             <plugin>
                 <groupId>com.vaadin</groupId>
                 <artifactId>vaadin-maven-plugin</artifactId>
@@ -211,10 +221,27 @@
                     </execution>
                 </executions>
             </plugin>
+            <!-- Ensure the widgetset directory is cleaned properly -->
+	        <plugin>
+	            <artifactId>maven-clean-plugin</artifactId>
+	            <version>3.0.0</version>
+	            <configuration>
+	                <filesets>
+	                    <fileset>
+	                        <!-- Clean-up widgetset required for "inplace" compilation -->
+	                        <directory>${basedir}/src/main/webapp/VAADIN/widgetsets</directory>
+	                    </fileset>
+	                    <fileset>
+	                        <!-- Clean-up gwt cache -->
+	                        <directory>${basedir}/src/main/webapp/VAADIN/gwt-unitCache</directory>
+	                    </fileset>
+	                </filesets>
+	            </configuration>
+	        </plugin>           
             <plugin>
                 <artifactId>maven-resources-plugin</artifactId>
                 <executions>
-                    <!-- ensure fresly compiled widgetset to jar, TODO check
+                    <!-- ensure freshly compiled widgetset to jar, TODO check
                     vaadin plugin configuration could get rid of this -->
                     <execution>
                         <id>copy-resources</id>
@@ -248,4 +275,7 @@
 	</repository>
 	</repositories>
 
+	<issueManagement>
+		<system>GitHub</system>
+	</issueManagement>
 </project>
