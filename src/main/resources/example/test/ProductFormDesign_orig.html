@@ -9,8 +9,8 @@
 	<v-label caption="Item Information" />
     <!--  <v-text-field caption="Product name" _id="productName" width="20%" responsvie/>  -->
 
-    <v-vertical-layout height:60% width-full>
-		<!-- 	<v-form-layout >  -->
+    <v-vertical-layout width-full>
+			<v-form-layout >
 				<v-horizontal-layout>
 					<v-vertical-layout width-full margin spacing :expand>
 						<v-text-field caption="Bar Code" _id="barCode" width-full />
@@ -65,12 +65,11 @@
         			</v-vertical-layout>
         		</v-horizontal-layout>
         		
-        <!-- </v-form-layout>  -->	
-        <v-vertical-layout width:55% margin responsive spacing :expand>
-        	<v-text-area caption="Notes" _id="notes" margin spacing width-full responsive />
-        	<v-text-area caption="Comments" _id="comments" margin spacing width-full responsive />
-        	<v-text-area caption="History Log" _id="historyLog" margin spacing width-full responsive />
-        </v-vertical-layout>
+        	</v-form-layout>
+
+        <v-text-area caption="Notes" _id="notes" margin spacing width:80% responsive />
+        <v-text-area caption="Comments" _id="comments" margin spacing width-full responsive />
+        <v-text-area caption="History Log" _id="historyLog" margin spacing width-full responsive />
         
         <v-css-layout :expand style-name="expander" />
 		<v-horizontal-layout margin spacing width:75% responsive >

@@ -107,14 +107,17 @@ public class ProductGrid extends Grid {
     public void setFilter(String filterString) {
         getContainer().removeAllContainerFilters();
         if (filterString.length() > 0) {
-            SimpleStringFilter nameFilter = new SimpleStringFilter(
+            SimpleStringFilter manufacturerFilter = new SimpleStringFilter(
                     "manufacturer", filterString, true, false);
-            SimpleStringFilter availabilityFilter = new SimpleStringFilter(
+            SimpleStringFilter barCodeFilter = new SimpleStringFilter(
                     "barCode", filterString, true, false);
-            SimpleStringFilter categoryFilter = new SimpleStringFilter(
+            SimpleStringFilter propertyTagFilter = new SimpleStringFilter(
                     "propertyTag", filterString, true, false);
+            SimpleStringFilter officeFilter = new SimpleStringFilter(
+                    "office", filterString, true, false);
+            
             getContainer().addContainerFilter(
-                    new Or(nameFilter, availabilityFilter, categoryFilter));
+                    new Or(manufacturerFilter, barCodeFilter, propertyTagFilter, officeFilter));
         }
 
     }

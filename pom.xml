@@ -4,11 +4,11 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>example.test</groupId>
-	<artifactId>Experimental</artifactId>
+	<artifactId>DWSSInventory</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 
-	<name>Experimental</name>
-	<description>Test project for Spring Boot/Vaadin/JPA</description>
+	<name>DWSSInventory</name>
+	<description>Inventory project for Spring Boot/Vaadin/JPA</description>
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>
@@ -21,7 +21,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<java.version>1.8</java.version>
-		<vaadin.theme>VAADIN.themes.experimentaltheme</vaadin.theme>
+		<vaadin.theme>VAADIN.themes.inventoryTheme</vaadin.theme>
 	</properties>
 	<dependencies>
 		<dependency>
