@@ -22,7 +22,7 @@ import dwss.nv.gov.backend.data.Asset;
 
 /**
  * Grid of items (orignal code copied from Vaadin is very fragile - particularly the html and the codes relation to it, only slight changes can cause
- * it to fail to display without any straightforward method of debugging it : hence I have not refactored) 
+ * it to fail to display without any straightforward method of debugging it : hence be very careful updating it) 
  * handling the visual presentation and filtering of a set of
  * items. This version uses an in-memory data source that is suitable for small
  * data sets.
@@ -36,18 +36,12 @@ public class AssetGrid extends Grid {
 
         setSelectionMode(SelectionMode.SINGLE);
         
-        //BeanItemContainer<Asset> container = new BeanItemContainer<Asset>(
-        //        Asset.class);
         setContainerDataSource(
                 new BeanItemContainer(Asset.class, ui.getAssetRepository().findAll()));        
-        //setContainerDataSource(container);
-//        setColumnOrder("id", "productName", "barCode", "propertyTag", "serialCode", "price", "availability",
-//                "stockCount");
         setColumnOrder("id", "barCode", "propertyTag", "serialCode", "dateEntered", "office", "description",
                 "assetType","assetModel","manufacturer","unit","comments","historyLog","vendor","dateReceived","purchaseOrder","budgetCode",
                 "verifiedDate","computerRelated","excessed","locationCode","repApproved","itemReplaced","inventoryDate","isEquipment","heatTicket");
         
-//        removeColumn("id");
         removeColumn("showComments");
         removeColumn("comments");
         removeColumn("operator");
@@ -55,8 +49,8 @@ public class AssetGrid extends Grid {
         removeColumn("LU");
         removeColumn("historyLog");
         removeColumn("locationType");
-
-        //is this it?
+        
+        //set up filters for the grid
         BeanItemContainer<Asset> container = this.getContainer();
         
      // Create a header row to hold column filters
@@ -88,7 +82,7 @@ public class AssetGrid extends Grid {
             }
         }        
         
-/*
+/* example code for inline conversion
         // Show empty stock as "-"
         getColumn("stockCount").setConverter(new StringToIntegerConverter() {
             @Override
@@ -112,6 +106,7 @@ public class AssetGrid extends Grid {
         getColumn("repApproved").setRenderer(new DateRenderer(" %1$tm/%1$td/%1$ty", Locale.US));
         getColumn("inventoryDate").setRenderer(new DateRenderer(" %1$tm/%1$td/%1$ty", Locale.US));
         getColumn("heatTicket").setRenderer(new NumberRenderer(new DecimalFormat("########")));
+        getColumn("id").setRenderer(new NumberRenderer(new DecimalFormat("########")));
         getColumn("computerRelated").setConverter(booleanToStringConverter).setRenderer(new HtmlRenderer());
 
         // Show categories as a comma separated list
