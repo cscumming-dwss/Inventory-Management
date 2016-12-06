@@ -1,4 +1,4 @@
-package example.test;
+package dwss.nv.gov;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -12,7 +12,7 @@ import com.vaadin.ui.Component;
 import com.vaadin.ui.CustomField;
 import com.vaadin.ui.VerticalLayout;
 
-import example.test.backend.data.Category;
+import dwss.nv.gov.backend.data.Category;
 
 /**
  * A custom Field implementation that allows selecting a set of categories using

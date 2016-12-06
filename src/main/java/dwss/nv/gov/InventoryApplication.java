@@ -1,4 +1,4 @@
-package example.test;
+package dwss.nv.gov;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -7,8 +7,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
-import example.test.backend.data.Asset;
-import example.test.backend.data.AssetRepository;
+import dwss.nv.gov.backend.data.Asset;
+import dwss.nv.gov.backend.data.AssetRepository;
 
 
 @SpringBootApplication

@@ -1,14 +1,14 @@
-package example.test;
-
-import example.test.VaadinUI;
-import example.test.AboutView;
-import example.test.SampleCrudView;
+package dwss.nv.gov;
 
 import com.vaadin.navigator.Navigator;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.HorizontalLayout;
+
+import dwss.nv.gov.AboutView;
+import dwss.nv.gov.SampleCrudView;
+import dwss.nv.gov.VaadinUI;
 
 /**
  * Content of the UI when the user is logged in.

@@ -1,13 +1,13 @@
-package example.test;
+package dwss.nv.gov;
 
 import java.io.Serializable;
 import java.util.List;
 
 import com.vaadin.server.Page;
 
-import example.test.backend.data.Manufacturer;
-import example.test.backend.data.ManufacturerRepository;
-import example.test.backend.data.Asset;
+import dwss.nv.gov.backend.data.Asset;
+import dwss.nv.gov.backend.data.Manufacturer;
+import dwss.nv.gov.backend.data.ManufacturerRepository;
 
 /**
  * This class provides an interface for the logical operations between the CRUD

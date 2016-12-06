@@ -1,4 +1,4 @@
-package example.test.authentication;
+package dwss.nv.gov.authentication;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

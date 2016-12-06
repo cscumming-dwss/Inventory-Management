@@ -1,4 +1,4 @@
-package example.test.backend.data;
+package dwss.nv.gov.backend.data;
 
 import java.io.Serializable;
 import java.math.BigDecimal;

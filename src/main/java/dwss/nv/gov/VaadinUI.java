@@ -1,4 +1,4 @@
-package example.test;
+package dwss.nv.gov;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -11,14 +11,14 @@ import com.vaadin.spring.annotation.SpringUI;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.themes.ValoTheme;
 
-import example.test.authentication.AccessControl;
-import example.test.authentication.BasicAccessControl;
-import example.test.authentication.LoginScreen;
-import example.test.authentication.LoginScreen.LoginListener;
-import example.test.backend.data.ManufacturerRepository;
-import example.test.backend.data.AssetRepository;
-import example.test.backend.data.TypeRepository;
-import example.test.backend.data.VendorRepository;
+import dwss.nv.gov.authentication.AccessControl;
+import dwss.nv.gov.authentication.BasicAccessControl;
+import dwss.nv.gov.authentication.LoginScreen;
+import dwss.nv.gov.authentication.LoginScreen.LoginListener;
+import dwss.nv.gov.backend.data.AssetRepository;
+import dwss.nv.gov.backend.data.ManufacturerRepository;
+import dwss.nv.gov.backend.data.TypeRepository;
+import dwss.nv.gov.backend.data.VendorRepository;
 
 /**
  * Main UI class of the application that shows either the login screen or the

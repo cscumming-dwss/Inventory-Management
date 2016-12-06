@@ -1,4 +1,4 @@
-package example.test.backend.data;
+package dwss.nv.gov.backend.data;
 
 public enum Availability {
     COMING("Coming"), AVAILABLE("Available"), DISCONTINUED("Discontinued");

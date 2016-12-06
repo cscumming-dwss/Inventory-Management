@@ -1,4 +1,4 @@
-package example.test;
+package dwss.nv.gov;
 
 import org.springframework.stereotype.Component;
 

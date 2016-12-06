@@ -1,14 +1,11 @@
-package example.test.backend;
+package dwss.nv.gov.backend;
 import java.util.List;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 
-
-import example.test.backend.data.Asset;
-
-
-import example.test.backend.data.AssetRepository;
+import dwss.nv.gov.backend.data.Asset;
+import dwss.nv.gov.backend.data.AssetRepository;
 
 /**
  *

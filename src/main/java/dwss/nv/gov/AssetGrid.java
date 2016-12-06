@@ -1,4 +1,4 @@
-package example.test;
+package dwss.nv.gov;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -18,7 +18,7 @@ import com.vaadin.ui.renderers.DateRenderer;
 import com.vaadin.ui.renderers.HtmlRenderer;
 import com.vaadin.ui.renderers.NumberRenderer;
 
-import example.test.backend.data.Asset;
+import dwss.nv.gov.backend.data.Asset;
 
 /**
  * Grid of items (orignal code copied from Vaadin is very fragile - particularly the html and the codes relation to it, only slight changes can cause

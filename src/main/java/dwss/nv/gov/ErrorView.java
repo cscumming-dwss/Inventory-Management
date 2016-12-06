@@ -1,4 +1,4 @@
-package example.test;
+package dwss.nv.gov;
 
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;

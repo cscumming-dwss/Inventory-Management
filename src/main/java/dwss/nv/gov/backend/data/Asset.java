@@ -1,4 +1,4 @@
-package example.test.backend.data;
+package dwss.nv.gov.backend.data;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -143,7 +143,7 @@ public class Asset implements Serializable {
     
  /*  
     
-//    protected example.test.NumberField stockCount;
+//    protected dwss.nv.gov.NumberField stockCount;
         
     //protected CategoryField category change to office code re example code
     //protected OfficeField officeCode;

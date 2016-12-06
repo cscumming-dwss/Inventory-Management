@@ -1,4 +1,4 @@
-package example.test;
+package dwss.nv.gov;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -42,8 +42,8 @@ import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.themes.ValoTheme;
 
-import example.test.backend.data.Manufacturer;
-import example.test.backend.data.Asset;
+import dwss.nv.gov.backend.data.Asset;
+import dwss.nv.gov.backend.data.Manufacturer;
 
 /**
  * A view for performing create-read-update-delete operations on products.
@@ -259,10 +259,10 @@ public class SampleCrudView extends CssLayout implements View {
     public void showManufacturers(Collection<Manufacturer> manufacturers) {
         form.setManufacturers(manufacturers);
     }
-    public void showVendors(Collection<example.test.backend.data.Vendor> vendors) {
+    public void showVendors(Collection<dwss.nv.gov.backend.data.Vendor> vendors) {
         form.setVendors(vendors);
     }
-    public void showTypes(Collection<example.test.backend.data.Type> types) {
+    public void showTypes(Collection<dwss.nv.gov.backend.data.Type> types) {
         form.setTypes(types);
     }
 

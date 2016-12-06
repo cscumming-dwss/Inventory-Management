@@ -3,9 +3,9 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>example.test</groupId>
+	<groupId>dwss.nv.gov</groupId>
 	<artifactId>DWSSInventory</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.2-SNAPSHOT</version>
 
 	<name>DWSSInventory</name>
 	<description>Inventory project for Spring Boot/Vaadin/JPA</description>
@@ -278,4 +278,9 @@
 	<issueManagement>
 		<system>GitHub</system>
 	</issueManagement>
+	<url>https://github.com/cscumming-dwss/Inventory-Management</url>
+	<organization>
+		<name>State of Nevada, Division of Welfare and Social Services</name>
+		<url>https://dwss.nv.gov</url>
+	</organization>
 </project>

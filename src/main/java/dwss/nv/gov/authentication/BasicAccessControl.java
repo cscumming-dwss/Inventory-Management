@@ -1,4 +1,4 @@
-package example.test.authentication;
+package dwss.nv.gov.authentication;
 
 /**
  * Default mock implementation of {@link AccessControl}. This implementation

@@ -1,4 +1,4 @@
-package example.test;
+package dwss.nv.gov;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -19,9 +19,9 @@ import com.vaadin.ui.Field;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.Notification.Type;
 
-import example.test.backend.data.Manufacturer;
-import example.test.backend.data.Asset;
-import example.test.backend.data.Vendor;
+import dwss.nv.gov.backend.data.Asset;
+import dwss.nv.gov.backend.data.Manufacturer;
+import dwss.nv.gov.backend.data.Vendor;
 
 /**
  * A form for editing a single product.
@@ -156,7 +156,7 @@ public class AssetForm extends AssetFormDesign {
   	vendor.addItems(entries);
   }
     
-    public void setTypes(Collection<example.test.backend.data.Type> types) {
+    public void setTypes(Collection<dwss.nv.gov.backend.data.Type> types) {
   	Collection<String> entries = new ArrayList<String>();
   	types.forEach(e -> entries.add(e.getEntry()));
   	assetType.addItems(entries);
