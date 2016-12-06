@@ -22,14 +22,14 @@ import org.springframework.stereotype.Component;
 import com.ibm.icu.text.DateFormat;
 import com.vaadin.ui.Notification;
 
-import example.test.backend.data.Product;
+import example.test.backend.data.Asset;
 
 @Component
 public class CsvToEntityConverter {
 
 private File csvInFile = null;
 private JpaRepository  entityRepository = null;
-private Product product = null;
+private Asset asset = null;
 private static List<String> processingfieldNames = null;
 private static List<String> fieldNames = null;
 private Properties columnProps = new Properties();
@@ -70,16 +70,16 @@ public void setEntityRepository(JpaRepository entityRepository) {
 }
 
 
-public Product getProduct() {
-	return product;
+public Asset getAsset() {
+	return asset;
 }
 
 
-public void setProduct(Product product) {
-	if (product == null){
-		this.product = new Product();
+public void setAsset(Asset asset) {
+	if (asset == null){
+		this.asset = new Asset();
 	} else {
-		this.product = product;
+		this.asset = asset;
 	}
 }
 
@@ -92,8 +92,8 @@ public List<String> getFieldNames() {
 public void setFieldNames(List<String> fieldNameList) {
 		this.fieldNames = fieldNameList;
 		
-	// Get Product and get the field names
-	Field[] pfields = product.getClass().getDeclaredFields();
+	// Get Asset and get the field names
+	Field[] pfields = asset.getClass().getDeclaredFields();
 
 	List<Field> flist = Arrays.asList(pfields);
 	
@@ -117,8 +117,8 @@ public int processFile() throws IOException {
 
 	processingfieldNames = new ArrayList<String>();
 	
-	//Create a product so we can check the column names and introspect the fields
-	product = new Product();
+	//Create a asset so we can check the column names and introspect the fields
+	asset = new Asset();
 
 	CSVParser parser = CSVParser.parse(csvInFile, Charset.defaultCharset(), CSVFormat.EXCEL);
 	
@@ -134,8 +134,8 @@ public int processFile() throws IOException {
 	//Get column names
 	List<String> CSVcolumnNameList = buildHeaderColumnList(headerRecord);
 	
-	//Get the field names for product so we can check if column headers are correct
-	fieldNames = buildEntityFieldNameList(product);
+	//Get the field names for asset so we can check if column headers are correct
+	fieldNames = buildEntityFieldNameList(asset);
 	
 	//Build a property table to use for building setter methods
 	columnProps = buildColumnProperties(CSVcolumnNameList);
@@ -188,11 +188,11 @@ public Properties buildColumnProperties(List<String> CSVPropertyNames) {
 
 
 
-public List<String> buildEntityFieldNameList(Product p) {
+public List<String> buildEntityFieldNameList(Asset p) {
 	
 	List<String> theFieldList = new ArrayList<String>();		
-	// Get Product and get the field names
-	Field[] pfields = product.getClass().getDeclaredFields();
+	// Get Asset and get the field names
+	Field[] pfields = asset.getClass().getDeclaredFields();
 
 	List<Field> flist = Arrays.asList(pfields);
 			
@@ -238,10 +238,10 @@ public void processCSVRecords(Iterator<CSVRecord> itRec) {
 		
 		addPropertyValues(theRec);
 		
-		callSetters(product, columnProps);
-    	entityRepository.save(product);
+		callSetters(asset, columnProps);
+    	entityRepository.save(asset);
     	
-    	product = new Product();
+    	asset = new Asset();
 		}
 
 }
@@ -286,7 +286,7 @@ public boolean isNameInTable(String inName) {
 /*
  * callSetters() using reflection and the property table constructs the 
  */
-public static void callSetters(Product p, Properties props) {
+public static void callSetters(Asset p, Properties props) {
 //public static void callSetters() {
 	String key = new String();
 	Class c = p.getClass();

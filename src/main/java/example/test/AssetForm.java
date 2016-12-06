@@ -20,7 +20,7 @@ import com.vaadin.ui.Notification;
 import com.vaadin.ui.Notification.Type;
 
 import example.test.backend.data.Manufacturer;
-import example.test.backend.data.Product;
+import example.test.backend.data.Asset;
 import example.test.backend.data.Vendor;
 
 /**
@@ -33,16 +33,16 @@ import example.test.backend.data.Vendor;
  * Note: you can only override the CSS by creating and compiling your own Vaadin theme to override the Valo Theme defaults
  * 
  *  setContainerDataSource(
-                new BeanItemContainer(Product.class, ui.getProductRepository().findAll()));    
+                new BeanItemContainer(Asset.class, ui.getProductRepository().findAll()));    
  */
-public class ProductForm extends ProductFormDesign {
+public class AssetForm extends AssetFormDesign {
 
     private SampleCrudLogic viewLogic;
-    private BeanFieldGroup<Product> fieldGroup;
+    private BeanFieldGroup<Asset> fieldGroup;
     private BeanFieldGroup<Manufacturer> mfieldGroup;
     private BeanFieldGroup<Vendor> vfieldGroup;
 
-    public ProductForm(SampleCrudLogic sampleCrudLogic) {
+    public AssetForm(SampleCrudLogic sampleCrudLogic) {
         super();
         addStyleName("product-form");
         setResponsive(true);
@@ -59,7 +59,7 @@ public class ProductForm extends ProductFormDesign {
 //            availability.addItem(s);
 //        }
 
-        fieldGroup = new BeanFieldGroup<Product>(Product.class);
+        fieldGroup = new BeanFieldGroup<Asset>(Asset.class);
         mfieldGroup = new BeanFieldGroup<Manufacturer>(Manufacturer.class);
         vfieldGroup = new BeanFieldGroup<Vendor>(Vendor.class);
         
@@ -92,8 +92,8 @@ public class ProductForm extends ProductFormDesign {
             @Override
             public void postCommit(CommitEvent commitEvent)
                     throws CommitException {
-            	Product product = fieldGroup.getItemDataSource().getBean();
-            	viewLogic.saveProduct(product);
+            	Asset asset = fieldGroup.getItemDataSource().getBean();
+            	viewLogic.saveAsset(asset);
                 //DataService.get().updateProduct(
                 //        fieldGroup.getItemDataSource().getBean());
             }
@@ -106,8 +106,8 @@ public class ProductForm extends ProductFormDesign {
                     fieldGroup.commit();
 
                     // only if validation succeeds
-                    Product product = fieldGroup.getItemDataSource().getBean();
-                    viewLogic.saveProduct(product);
+                    Asset asset = fieldGroup.getItemDataSource().getBean();
+                    viewLogic.saveAsset(asset);
                 } catch (CommitException e) {
                     Notification n = new Notification(
                             "Please re-check the fields", Type.ERROR_MESSAGE);
@@ -127,8 +127,8 @@ public class ProductForm extends ProductFormDesign {
         delete.addClickListener(new ClickListener() {
             @Override
             public void buttonClick(ClickEvent event) {
-                Product product = fieldGroup.getItemDataSource().getBean();
-                viewLogic.deleteProduct(product);
+                Asset asset = fieldGroup.getItemDataSource().getBean();
+                viewLogic.deleteAsset(asset);
             }
         });
     }
@@ -164,13 +164,13 @@ public class ProductForm extends ProductFormDesign {
 
     
     
-    public void editProduct(Product product) {
+    public void editAsset(Asset asset) {
     	
-    	if (product == null) {
-            product = new Product();
+    	if (asset == null) {
+            asset = new Asset();
             
         }
-        fieldGroup.setItemDataSource(new BeanItem<Product>(product));
+        fieldGroup.setItemDataSource(new BeanItem<Asset>(asset));
         
 //        mfieldGroup.setItemDataSource(new BeanItem<Manufacturer>(manufacturer));
 
@@ -192,10 +192,10 @@ public class ProductForm extends ProductFormDesign {
         // only products that have been saved should be removable
         boolean canRemoveProduct = false;
         int idValue = 0;
-        BeanItem<Product> item = fieldGroup.getItemDataSource();
+        BeanItem<Asset> item = fieldGroup.getItemDataSource();
         if (item != null) {
-            Product product = item.getBean();
-            idValue = product.getId();
+            Asset asset = item.getBean();
+            idValue = asset.getId();
             if (idValue <= 0)
             	canRemoveProduct = false;
         }

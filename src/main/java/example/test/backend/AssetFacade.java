@@ -5,29 +5,29 @@ import javax.ejb.Stateless;
 import javax.inject.Inject;
 
 
-import example.test.backend.data.Product;
+import example.test.backend.data.Asset;
 
 
-import example.test.backend.data.ProductRepository;
+import example.test.backend.data.AssetRepository;
 
 /**
  *
  * @author Ccummings
  */
 @Stateless
-public class ProductFacade {
+public class AssetFacade {
     
-    @Inject ProductRepository repo;
+    @Inject AssetRepository repo;
 
-    public void save(Product entity) {
+    public void save(Asset entity) {
         repo.save(entity);
     }
 
-    public List<Product> findByManufactuerStartsWithIgnoreCase(String value) {
+    public List<Asset> findByManufactuerStartsWithIgnoreCase(String value) {
         return repo.findByManufacturerStartsWithIgnoreCase(value);
     }
 
-    public  List<Product> findAll(Integer id) {
+    public  List<Asset> findAll(Integer id) {
         return repo.findAll();
     }
        

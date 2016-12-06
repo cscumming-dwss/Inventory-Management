@@ -43,7 +43,7 @@ import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.themes.ValoTheme;
 
 import example.test.backend.data.Manufacturer;
-import example.test.backend.data.Product;
+import example.test.backend.data.Asset;
 
 /**
  * A view for performing create-read-update-delete operations on products.
@@ -55,8 +55,8 @@ public class SampleCrudView extends CssLayout implements View {
 
     public static final String VIEW_NAME = "Inventory";
     private VaadinUI ui;
-    private ProductGrid grid;
-    private ProductForm form;
+    private AssetGrid grid;
+    private AssetForm form;
 
     private SampleCrudLogic viewLogic = new SampleCrudLogic(this);
     private Button newProduct;
@@ -68,7 +68,7 @@ public class SampleCrudView extends CssLayout implements View {
         setSizeFull();
         addStyleName("crud-view");
 
-        grid = new ProductGrid(ui);
+        grid = new AssetGrid(ui);
         grid.setColumnReorderingAllowed(true);
         List<Grid.Column> colList = grid.getColumns();
         for (Grid.Column tempCol : colList) {
@@ -85,7 +85,7 @@ public class SampleCrudView extends CssLayout implements View {
 
         HorizontalLayout topLayout = createTopBar();
         
-        form = new ProductForm(viewLogic);
+        form = new AssetForm(viewLogic);
         // to be implemented getting offices codes from database
         //form.setCategories(DataService.get().getAllCategories());
 
@@ -158,7 +158,7 @@ public class SampleCrudView extends CssLayout implements View {
                                                                                         .withSheetConfigs(sheetList)
                                                                                         .build();
 
-                ExportToExcelUtility<Product> exportToExcelUtility = new ExportToExcelUtility<Product>(ui.getCurrent(), config1, Product.class);
+                ExportToExcelUtility<Asset> exportToExcelUtility = new ExportToExcelUtility<Asset>(ui.getCurrent(), config1, Asset.class);
                 exportToExcelUtility.setSourceUI(ui.getCurrent());
                 exportToExcelUtility.setResultantExportType(ExportType.XLSX);
                 exportToExcelUtility.export();
@@ -176,7 +176,7 @@ public class SampleCrudView extends CssLayout implements View {
         	public void valueChange(Property.ValueChangeEvent event) {
         		Notification.show("File Uplaoaded" + uplDoc.getValue() + ' ' + uplDoc.isEmpty());
         		File newfile = (File)uplDoc.getValue();
-        		CsvToEntityConverter csvConvert = new CsvToEntityConverter(newfile, ui.getProductRepository());
+        		CsvToEntityConverter csvConvert = new CsvToEntityConverter(newfile, ui.getAssetRepository());
         		
         		try {
         			csvConvert.processFile();
@@ -233,27 +233,27 @@ public class SampleCrudView extends CssLayout implements View {
         grid.getSelectionModel().reset();
     }
 
-    public void selectRow(Product row) {
+    public void selectRow(Asset row) {
         ((SelectionModel.Single) grid.getSelectionModel()).select(row);
     }
 
-    public Product getSelectedRow() {
+    public Asset getSelectedRow() {
         return grid.getSelectedRow();
     }
 
-    public void editProduct(Product product) {
-        if (product != null) {
+    public void editAsset(Asset asset) {
+        if (asset != null) {
             form.addStyleName("visible");
             form.setEnabled(true);
         } else {
             form.removeStyleName("visible");
             form.setEnabled(false);
         }
-        form.editProduct(product);
+        form.editAsset(asset);
     }
 
-    public void showProducts(Collection<Product> products) {
-        grid.setProducts(products);
+    public void showAssets(Collection<Asset> assets) {
+        grid.setAssets(assets);
     }
 
     public void showManufacturers(Collection<Manufacturer> manufacturers) {
@@ -268,13 +268,13 @@ public class SampleCrudView extends CssLayout implements View {
 
 
     
-    public void refreshProduct(Product product) {
-        grid.refresh(product);
-        grid.scrollTo(product);
+    public void refreshAsset(Asset asset) {
+        grid.refresh(asset);
+        grid.scrollTo(asset);
     }
 
-    public void removeProduct(Product product) {
-        grid.remove(product);
+    public void removeAsset(Asset asset) {
+        grid.remove(asset);
     }
 
 }

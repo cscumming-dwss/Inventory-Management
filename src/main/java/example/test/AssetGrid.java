@@ -8,15 +8,17 @@ import java.util.Locale;
 
 import com.vaadin.data.util.BeanItem;
 import com.vaadin.data.util.BeanItemContainer;
+import com.vaadin.data.util.IndexedContainer;
 import com.vaadin.data.util.MethodProperty;
 import com.vaadin.data.util.filter.Or;
 import com.vaadin.data.util.filter.SimpleStringFilter;
 import com.vaadin.ui.Grid;
+import com.vaadin.ui.TextField;
 import com.vaadin.ui.renderers.DateRenderer;
 import com.vaadin.ui.renderers.HtmlRenderer;
 import com.vaadin.ui.renderers.NumberRenderer;
 
-import example.test.backend.data.Product;
+import example.test.backend.data.Asset;
 
 /**
  * Grid of items (orignal code copied from Vaadin is very fragile - particularly the html and the codes relation to it, only slight changes can cause
@@ -25,27 +27,27 @@ import example.test.backend.data.Product;
  * items. This version uses an in-memory data source that is suitable for small
  * data sets.
  */
-public class ProductGrid extends Grid {
+public class AssetGrid extends Grid {
 
 	private BooleanToStringConverter booleanToStringConverter = new BooleanToStringConverter(); 
 
-    public ProductGrid(VaadinUI ui) {
+    public AssetGrid(VaadinUI ui) {
         setSizeFull();
 
         setSelectionMode(SelectionMode.SINGLE);
         
-        //BeanItemContainer<Product> container = new BeanItemContainer<Product>(
-        //        Product.class);
+        //BeanItemContainer<Asset> container = new BeanItemContainer<Asset>(
+        //        Asset.class);
         setContainerDataSource(
-                new BeanItemContainer(Product.class, ui.getProductRepository().findAll()));        
+                new BeanItemContainer(Asset.class, ui.getAssetRepository().findAll()));        
         //setContainerDataSource(container);
 //        setColumnOrder("id", "productName", "barCode", "propertyTag", "serialCode", "price", "availability",
 //                "stockCount");
-        setColumnOrder("barCode", "propertyTag", "serialCode", "dateEntered", "office", "description",
+        setColumnOrder("id", "barCode", "propertyTag", "serialCode", "dateEntered", "office", "description",
                 "assetType","assetModel","manufacturer","unit","comments","historyLog","vendor","dateReceived","purchaseOrder","budgetCode",
                 "verifiedDate","computerRelated","excessed","locationCode","repApproved","itemReplaced","inventoryDate","isEquipment","heatTicket");
         
-        removeColumn("id");
+//        removeColumn("id");
         removeColumn("showComments");
         removeColumn("comments");
         removeColumn("operator");
@@ -53,6 +55,38 @@ public class ProductGrid extends Grid {
         removeColumn("LU");
         removeColumn("historyLog");
         removeColumn("locationType");
+
+        //is this it?
+        BeanItemContainer<Asset> container = this.getContainer();
+        
+     // Create a header row to hold column filters
+        HeaderRow filterRow = this.appendHeaderRow();
+        
+     // Set up a filter for all columns - this is copied code: to be edited later to match types and renderers
+        for (Object pid: this.getContainerDataSource()
+                             .getContainerPropertyIds()) {
+            HeaderCell cell = filterRow.getCell(pid);
+            
+            if (cell != null) {
+            
+            // Have an input field to use for filter
+            TextField filterField = new TextField();
+            filterField.setColumns(0);
+
+            // Update filter When the filter input is changed
+            filterField.addTextChangeListener(change -> {
+                // Can't modify filters so need to replace
+                container.removeContainerFilters(pid);
+
+                // (Re)create the filter if necessary
+                if (! change.getText().isEmpty())
+                    container.addContainerFilter(
+                        new SimpleStringFilter(pid,
+                            change.getText(), true, false));
+            });
+            cell.setComponent(filterField);
+            }
+        }        
         
 /*
         // Show empty stock as "-"
@@ -122,36 +156,36 @@ public class ProductGrid extends Grid {
 
     }
 
-    private BeanItemContainer<Product> getContainer() {
-        return (BeanItemContainer<Product>) super.getContainerDataSource();
+    private BeanItemContainer<Asset> getContainer() {
+        return (BeanItemContainer<Asset>) super.getContainerDataSource();
     }
 
     @Override
-    public Product getSelectedRow() throws IllegalStateException {
-        return (Product) super.getSelectedRow();
+    public Asset getSelectedRow() throws IllegalStateException {
+        return (Asset) super.getSelectedRow();
     }
 
-    public void setProducts(Collection<Product> products) {
+    public void setAssets(Collection<Asset> assets) {
         getContainer().removeAllItems();
-        getContainer().addAll(products);
+        getContainer().addAll(assets);
     }
 
-    public void refresh(Product product) {
+    public void refresh(Asset asset) {
         // We avoid updating the whole table through the backend here so we can
         // get a partial update for the grid
-        BeanItem<Product> item = getContainer().getItem(product);
+        BeanItem<Asset> item = getContainer().getItem(asset);
         if (item != null) {
             // Updated product
             MethodProperty p = (MethodProperty) item.getItemProperty("id");
             p.fireValueChange();
         } else {
             // New product
-            getContainer().addBean(product);
+            getContainer().addBean(asset);
         }
     }
 
-    public void remove(Product product) {
-        getContainer().removeItem(product);
+    public void remove(Asset asset) {
+        getContainer().removeItem(asset);
     }
     
     public Object[] getVisibleColumns() {

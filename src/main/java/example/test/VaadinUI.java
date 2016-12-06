@@ -16,7 +16,7 @@ import example.test.authentication.BasicAccessControl;
 import example.test.authentication.LoginScreen;
 import example.test.authentication.LoginScreen.LoginListener;
 import example.test.backend.data.ManufacturerRepository;
-import example.test.backend.data.ProductRepository;
+import example.test.backend.data.AssetRepository;
 import example.test.backend.data.TypeRepository;
 import example.test.backend.data.VendorRepository;
 
@@ -46,7 +46,7 @@ public class VaadinUI extends UI {
 	private AccessControl accessControl = new BasicAccessControl();
 	
     @Autowired
-    ProductRepository pRepository;
+    AssetRepository pRepository;
     @Autowired
     ManufacturerRepository mRepository;
     @Autowired
@@ -84,7 +84,7 @@ public class VaadinUI extends UI {
         return (VaadinUI) UI.getCurrent();
     }
 
-    public ProductRepository getProductRepository(){
+    public AssetRepository getAssetRepository(){
     	return pRepository;
     }
     

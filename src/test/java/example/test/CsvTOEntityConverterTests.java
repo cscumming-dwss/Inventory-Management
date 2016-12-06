@@ -14,12 +14,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.vaadin.ui.Notification;
 
-import example.test.backend.data.ProductRepository;
+import example.test.backend.data.AssetRepository;
 
 public class CsvTOEntityConverterTests {
 
 	@Autowired
-	public ProductRepository pRepository = null;
+	public AssetRepository pRepository = null;
 	public File newFile = null;
 	public CsvToEntityConverter csvConvert = null;
 	

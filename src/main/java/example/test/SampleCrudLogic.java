@@ -7,7 +7,7 @@ import com.vaadin.server.Page;
 
 import example.test.backend.data.Manufacturer;
 import example.test.backend.data.ManufacturerRepository;
-import example.test.backend.data.Product;
+import example.test.backend.data.Asset;
 
 /**
  * This class provides an interface for the logical operations between the CRUD
@@ -27,13 +27,13 @@ public class SampleCrudLogic implements Serializable {
     }
 
     public void init() {
-        editProduct(null);
+        editAsset(null);
         // Hide and disable if not admin
         if (!VaadinUI.get().getAccessControl().isUserInRole("admin")) {
             view.setNewProductEnabled(false);
         }
 
-        view.showProducts(VaadinUI.get().getProductRepository().findAll());
+        view.showAssets(VaadinUI.get().getAssetRepository().findAll());
         view.showManufacturers(VaadinUI.get().getManufacturerRepository().findAll());
         view.showVendors(VaadinUI.get().getVendorRepository().findAll());
         view.showTypes(VaadinUI.get().getTypeRepository().findAll());
@@ -44,7 +44,7 @@ public class SampleCrudLogic implements Serializable {
     public void cancelProduct() {
         setFragmentParameter("");
         view.clearSelection();
-        view.editProduct(null);
+        view.editAsset(null);
     }
 
     /**
@@ -72,57 +72,57 @@ public class SampleCrudLogic implements Serializable {
                 // login
                 try {
                     int pid = Integer.parseInt(productId);
-                    Product product = findProduct(pid);
-                    view.selectRow(product);
+                    Asset asset = findAsset(pid);
+                    view.selectRow(asset);
                 } catch (NumberFormatException e) {
                 }
             }
         }
     }
 
-    private Product findProduct(int productId) {
-        return VaadinUI.get().getProductRepository().getOne(productId);
+    private Asset findAsset(int productId) {
+        return VaadinUI.get().getAssetRepository().getOne(productId);
     }
 
-    public void saveProduct(Product product) {
-    	VaadinUI.get().getProductRepository().save(product);
-    	view.showSaveNotification(product.getBarCode() + " ("
-                + product.getId() + ") updated");
+    public void saveAsset(Asset asset) {
+    	VaadinUI.get().getAssetRepository().save(asset);
+    	view.showSaveNotification(asset.getBarCode() + " ("
+                + asset.getId() + ") updated");
         view.clearSelection();
-        view.editProduct(null);
-        view.refreshProduct(product);
+        view.editAsset(null);
+        view.refreshAsset(asset);
         setFragmentParameter("");
     }
 
-    public void deleteProduct(Product product) {
-    	VaadinUI.get().getProductRepository().delete(product.getId());
-        view.showSaveNotification(product.getBarCode() + " ("
-                + product.getId() + ") removed");
+    public void deleteAsset(Asset asset) {
+    	VaadinUI.get().getAssetRepository().delete(asset.getId());
+        view.showSaveNotification(asset.getBarCode() + " ("
+                + asset.getId() + ") removed");
 
         view.clearSelection();
-        view.editProduct(null);
-        view.removeProduct(product);
+        view.editAsset(null);
+        view.removeAsset(asset);
         setFragmentParameter("");
     }
 
-    public void editProduct(Product product) {
-        if (product == null) {
+    public void editAsset(Asset asset) {
+        if (asset == null) {
             setFragmentParameter("");
         } else {
-            setFragmentParameter(product.getId() + "");
+            setFragmentParameter(asset.getId() + "");
         }
-        view.editProduct(product);
+        view.editAsset(asset);
     }
 
     public void newProduct() {
         view.clearSelection();
         setFragmentParameter("new");
-        view.editProduct(new Product());
+        view.editAsset(new Asset());
     }
 
-    public void rowSelected(Product product) {
+    public void rowSelected(Asset asset) {
         if (VaadinUI.get().getAccessControl().isUserInRole("admin")) {
-            view.editProduct(product);
+            view.editAsset(asset);
         }
     }
 }
