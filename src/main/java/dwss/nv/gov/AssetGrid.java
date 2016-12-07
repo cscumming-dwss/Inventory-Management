@@ -18,7 +18,15 @@ import com.vaadin.ui.renderers.DateRenderer;
 import com.vaadin.ui.renderers.HtmlRenderer;
 import com.vaadin.ui.renderers.NumberRenderer;
 
+import org.vaadin.gridutil.GridUtil;
+import org.vaadin.gridutil.cell.*;
+import org.vaadin.gridutil.converter.SimpleStringConverter;
+import org.vaadin.gridutil.renderer.*;
+import org.vaadin.gridutil.renderer.EditDeleteButtonValueRenderer.EditDeleteButtonClickListener;
+
 import dwss.nv.gov.backend.data.Asset;
+
+
 
 /**
  * Grid of items (orignal code copied from Vaadin is very fragile - particularly the html and the codes relation to it, only slight changes can cause
@@ -30,6 +38,9 @@ import dwss.nv.gov.backend.data.Asset;
 public class AssetGrid extends Grid {
 
 	private BooleanToStringConverter booleanToStringConverter = new BooleanToStringConverter(); 
+	private GridCellFilter filter;
+	private boolean ignoreCase = true;
+	private boolean onlyMatchPrefix = true;
 
     public AssetGrid(VaadinUI ui) {
         setSizeFull();
@@ -50,54 +61,34 @@ public class AssetGrid extends Grid {
         removeColumn("historyLog");
         removeColumn("locationType");
         
-        //set up filters for the grid
-        BeanItemContainer<Asset> container = this.getContainer();
         
-     // Create a header row to hold column filters
-        HeaderRow filterRow = this.appendHeaderRow();
+        filter = new GridCellFilter(this);
         
-     // Set up a filter for all columns - this is copied code: to be edited later to match types and renderers
-        for (Object pid: this.getContainerDataSource()
-                             .getContainerPropertyIds()) {
-            HeaderCell cell = filterRow.getCell(pid);
-            
-            if (cell != null) {
-            
-            // Have an input field to use for filter
-            TextField filterField = new TextField();
-            filterField.setColumns(0);
-
-            // Update filter When the filter input is changed
-            filterField.addTextChangeListener(change -> {
-                // Can't modify filters so need to replace
-                container.removeContainerFilters(pid);
-
-                // (Re)create the filter if necessary
-                if (! change.getText().isEmpty())
-                    container.addContainerFilter(
-                        new SimpleStringFilter(pid,
-                            change.getText(), true, false));
-            });
-            cell.setComponent(filterField);
-            }
-        }        
+        filter.setNumberFilter("id");
+        filter.setNumberFilter("barCode");
+        filter.setNumberFilter("propertyTag");
+        filter.setNumberFilter("serialCode");
+        filter.setDateFilter("dateEntered");
+        filter.setTextFilter("office", true, false,"CO");
+        filter.setTextFilter("description", true, false);
+        filter.setTextFilter("assetType", ignoreCase, onlyMatchPrefix);
+        filter.setTextFilter("assetModel", ignoreCase, onlyMatchPrefix);
+        filter.setTextFilter("manufacturer", ignoreCase, onlyMatchPrefix);
+        filter.setTextFilter("unit", ignoreCase, onlyMatchPrefix);
+        filter.setTextFilter("vendor", ignoreCase, onlyMatchPrefix);
+        filter.setDateFilter("dateReceived");
+        filter.setTextFilter("purchaseOrder", ignoreCase, onlyMatchPrefix);
+        filter.setTextFilter("budgetCode", ignoreCase, onlyMatchPrefix);
+        filter.setDateFilter("verifiedDate");
+        filter.setBooleanFilter("computerRelated");
+        filter.setBooleanFilter("excessed");
+        filter.setTextFilter("locationCode", ignoreCase, onlyMatchPrefix);
+        filter.setDateFilter("repApproved");
+        filter.setBooleanFilter("itemReplaced");
+        filter.setDateFilter("inventoryDate");
+        filter.setBooleanFilter("isEquipment");
+        filter.setNumberFilter("heatTicket", "0", "999999999");
         
-/* example code for inline conversion
-        // Show empty stock as "-"
-        getColumn("stockCount").setConverter(new StringToIntegerConverter() {
-            @Override
-            public String convertToPresentation(Integer value,
-                    java.lang.Class<? extends String> targetType, Locale locale)
-                    throws Converter.ConversionException {
-                if (value == 0) {
-                    return "-";
-                }
-
-                return super.convertToPresentation(value, targetType, locale);
-            };
-        });
-		*/
-        // Add " $" automatically after price
         //add renderers on grid so they display correctly ISSUE #15
         getColumn("cost").setConverter(new DollarConverter());
         getColumn("dateEntered").setRenderer(new DateRenderer(" %1$tm/%1$td/%1$ty", Locale.US));
@@ -109,10 +100,7 @@ public class AssetGrid extends Grid {
         getColumn("id").setRenderer(new NumberRenderer(new DecimalFormat("########")));
         getColumn("computerRelated").setConverter(booleanToStringConverter).setRenderer(new HtmlRenderer());
 
-        // Show categories as a comma separated list
-       // getColumn("category").setConverter(new CollectionToStringConverter());
-
-        // Align columns using a style generator and theme rule until #15438
+       // Align columns using a style generator and theme rule until #15438
         setCellStyleGenerator(new CellStyleGenerator() {
 
             @Override
@@ -126,30 +114,6 @@ public class AssetGrid extends Grid {
         });
     }
 
-    /**
-     * Filter the grid based on a search string that is searched for in the
-     * product name, availability and category columns.
-     *
-     * @param filterString
-     *            string to look for
-     */
-    public void setFilter(String filterString) {
-        getContainer().removeAllContainerFilters();
-        if (filterString.length() > 0) {
-            SimpleStringFilter manufacturerFilter = new SimpleStringFilter(
-                    "manufacturer", filterString, true, false);
-            SimpleStringFilter barCodeFilter = new SimpleStringFilter(
-                    "barCode", filterString, true, false);
-            SimpleStringFilter propertyTagFilter = new SimpleStringFilter(
-                    "propertyTag", filterString, true, false);
-            SimpleStringFilter officeFilter = new SimpleStringFilter(
-                    "office", filterString, true, false);
-            
-            getContainer().addContainerFilter(
-                    new Or(manufacturerFilter, barCodeFilter, propertyTagFilter, officeFilter));
-        }
-
-    }
 
     private BeanItemContainer<Asset> getContainer() {
         return (BeanItemContainer<Asset>) super.getContainerDataSource();
