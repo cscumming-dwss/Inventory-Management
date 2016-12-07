@@ -1,4 +1,4 @@
-package example.test;
+package dwss.nv.gov;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
