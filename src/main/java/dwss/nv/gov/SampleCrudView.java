@@ -110,13 +110,13 @@ public class SampleCrudView extends CssLayout implements View {
         filter.setInputPrompt("Filter");
         ResetButtonForTextField.extend(filter);
         filter.setImmediate(true);
-        filter.addTextChangeListener(new FieldEvents.TextChangeListener() {
+/*        filter.addTextChangeListener(new FieldEvents.TextChangeListener() {
             @Override
             public void textChange(FieldEvents.TextChangeEvent event) {
                 grid.setFilter(event.getText());
             }
         });
-
+*/
         exportGrid = new Button("Export");
         exportGrid.addStyleName(ValoTheme.BUTTON_DANGER);
         exportGrid.addClickListener(new ClickListener() {
@@ -167,22 +167,24 @@ public class SampleCrudView extends CssLayout implements View {
         
         uplDoc = new UploadField(StorageMode.FILE);
         uplDoc.setFieldType(FieldType.FILE);
-        
+        uplDoc.setFileDeletesAllowed(false);
         uplDoc.setButtonCaption("Import");
         uplDoc.addStyleName(ValoTheme.BUTTON_QUIET);
         
         uplDoc.addValueChangeListener(new Property.ValueChangeListener() {
         	@Override
         	public void valueChange(Property.ValueChangeEvent event) {
-        		Notification.show("File Uplaoaded" + uplDoc.getValue() + ' ' + uplDoc.isEmpty());
+        		Notification.show("File Uploaded" + uplDoc.getValue());
         		File newfile = (File)uplDoc.getValue();
-        		CsvToEntityConverter csvConvert = new CsvToEntityConverter(newfile, ui.getAssetRepository());
+//        		CsvToEntityConverter csvConvert = new CsvToEntityConverter(newfile, ui.getAssetRepository());
+        		XLSXToEntityConverter xlsxConvert = new XLSXToEntityConverter(newfile, ui.getAssetRepository());
         		
         		try {
-        			csvConvert.processFile();
+//        			csvConvert.processFile();
+        			xlsxConvert.processFile();
         		} catch (Exception e) {
-        		Notification.show("Unexpected File exception: Try again");
-        		System.out.println(e.getMessage() + " File error!");
+        		Notification.show("Unexpected File exception: Correct the Error and Restart", e.getMessage(), Notification.TYPE_ERROR_MESSAGE);
+        		System.out.println(e.getMessage() + " Error processing Import! " + e);
         		}
         	}
         });

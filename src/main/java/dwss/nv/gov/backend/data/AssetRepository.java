@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface AssetRepository extends JpaRepository<Asset, Integer> {
 
 	List<Asset> findByManufacturerStartsWithIgnoreCase(String manufacturer);
+	Asset findByBarCode(String barcode);
 
 	@Override
 	Asset findOne(Integer id);
