@@ -10,6 +10,7 @@ public interface AssetRepository extends JpaRepository<Asset, Integer> {
 
 	List<Asset> findByManufacturerStartsWithIgnoreCase(String manufacturer);
 	Asset findByBarCode(String barcode);
+	//List<String> findAllBudgetCodes();
 
 	@Override
 	Asset findOne(Integer id);

@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 
@@ -21,7 +22,6 @@ import org.vaadin.easyuploads.UploadField.StorageMode;
 import org.vaadin.resetbuttonfortextfield.ResetButtonForTextField;
 
 import com.vaadin.data.Property;
-import com.vaadin.event.FieldEvents;
 import com.vaadin.event.SelectionEvent;
 import com.vaadin.event.SelectionEvent.SelectionListener;
 import com.vaadin.navigator.View;
@@ -33,7 +33,6 @@ import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.Grid;
-import com.vaadin.ui.Grid.Column;
 import com.vaadin.ui.Grid.SelectionModel;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Notification;
@@ -59,7 +58,7 @@ public class SampleCrudView extends CssLayout implements View {
     private AssetForm form;
 
     private SampleCrudLogic viewLogic = new SampleCrudLogic(this);
-    private Button newProduct;
+    private Button addAsset;
     private Button exportGrid;
     private UploadField uplDoc;    
 
@@ -83,6 +82,7 @@ public class SampleCrudView extends CssLayout implements View {
             }
         });
 
+                
         HorizontalLayout topLayout = createTopBar();
         
         form = new AssetForm(viewLogic);
@@ -105,11 +105,11 @@ public class SampleCrudView extends CssLayout implements View {
     }
 
     public HorizontalLayout createTopBar() {
-        TextField filter = new TextField();
-        filter.setStyleName("filter-textfield");
-        filter.setInputPrompt("Filter");
-        ResetButtonForTextField.extend(filter);
-        filter.setImmediate(true);
+        //TextField filter = new TextField();
+        //filter.setStyleName("filter-textfield");
+        ///filter.setInputPrompt("Filter");
+        ///ResetButtonForTextField.extend(filter);
+        //filter.setImmediate(true);
 /*        filter.addTextChangeListener(new FieldEvents.TextChangeListener() {
             @Override
             public void textChange(FieldEvents.TextChangeEvent event) {
@@ -174,27 +174,28 @@ public class SampleCrudView extends CssLayout implements View {
         uplDoc.addValueChangeListener(new Property.ValueChangeListener() {
         	@Override
         	public void valueChange(Property.ValueChangeEvent event) {
-        		Notification.show("File Uploaded" + uplDoc.getValue());
+        		showSaveNotification("File Uploaded " + uplDoc.getValue());
         		File newfile = (File)uplDoc.getValue();
-//        		CsvToEntityConverter csvConvert = new CsvToEntityConverter(newfile, ui.getAssetRepository());
         		XLSXToEntityConverter xlsxConvert = new XLSXToEntityConverter(newfile, ui.getAssetRepository());
         		
         		try {
-//        			csvConvert.processFile();
-        			xlsxConvert.processFile();
+        			List<Asset> assetList = xlsxConvert.processFile();
+        			VaadinUI.get().getAssetRepository().save(assetList);
+        			refreshAsset(assetList);
         		} catch (Exception e) {
-        		Notification.show("Unexpected File exception: Correct the Error and Restart", e.getMessage(), Notification.TYPE_ERROR_MESSAGE);
-        		System.out.println(e.getMessage() + " Error processing Import! " + e);
+        			showError("Unexpected File exception: Correct the Error and Restart " + e);
+        			System.out.println(e.getMessage() + " Error processing Import! " + e);
         		}
+        		uplDoc.clear();
         	}
         });
         
 
         
-        newProduct = new Button("New Asset");
-        newProduct.addStyleName(ValoTheme.BUTTON_PRIMARY);
-        newProduct.setIcon(FontAwesome.PLUS_CIRCLE);
-        newProduct.addClickListener(new ClickListener() {
+        addAsset = new Button("New Asset");
+        addAsset.addStyleName(ValoTheme.BUTTON_PRIMARY);
+        addAsset.setIcon(FontAwesome.PLUS_CIRCLE);
+        addAsset.addClickListener(new ClickListener() {
             @Override
             public void buttonClick(ClickEvent event) {
                 viewLogic.newProduct();
@@ -203,13 +204,19 @@ public class SampleCrudView extends CssLayout implements View {
 
         HorizontalLayout topLayout = new HorizontalLayout();
         topLayout.setSpacing(true);
-        topLayout.setWidth("100%");
-        topLayout.addComponent(filter);
-        topLayout.addComponent(newProduct);
+        topLayout.setWidth("50%");
+//        topLayout.addComponent(filter);
+        topLayout.addComponent(addAsset);
         topLayout.addComponent(exportGrid);
         topLayout.addComponent(uplDoc);
-        topLayout.setComponentAlignment(filter, Alignment.MIDDLE_LEFT);
-        topLayout.setExpandRatio(filter, 1);
+        topLayout.setComponentAlignment(addAsset, Alignment.MIDDLE_RIGHT);
+        topLayout.setComponentAlignment(exportGrid, Alignment.MIDDLE_RIGHT);
+        topLayout.setComponentAlignment(uplDoc, Alignment.MIDDLE_RIGHT);
+        topLayout.setExpandRatio(addAsset,1);
+        topLayout.setExpandRatio(exportGrid,2);
+        topLayout.setExpandRatio(uplDoc, 3);
+  //      topLayout.setComponentAlignment(filter, Alignment.MIDDLE_LEFT);
+    //    topLayout.setExpandRatio(filter, 1);
         topLayout.setStyleName("top-bar");
         return topLayout;
     }
@@ -228,7 +235,7 @@ public class SampleCrudView extends CssLayout implements View {
     }
 
     public void setNewProductEnabled(boolean enabled) {
-        newProduct.setEnabled(enabled);
+    	addAsset.setEnabled(enabled);
     }
 
     public void clearSelection() {
@@ -273,6 +280,25 @@ public class SampleCrudView extends CssLayout implements View {
     public void refreshAsset(Asset asset) {
         grid.refresh(asset);
         grid.scrollTo(asset);
+    }
+
+    
+    public void refreshAsset(List<Asset> assets) {
+    	Iterator<Asset> it = assets.iterator();
+    	Asset iAsset = null;
+    	boolean select = true;
+    	
+    	while (it.hasNext()){
+    		iAsset = (Asset)it.next();
+    	    grid.refresh(iAsset);
+    	}
+    	if (iAsset != null)
+    		if (select) {
+    			grid.scrollTo(iAsset);
+//    			selectRow(iAsset);
+    			select = false;
+    		}
+
     }
 
     public void removeAsset(Asset asset) {

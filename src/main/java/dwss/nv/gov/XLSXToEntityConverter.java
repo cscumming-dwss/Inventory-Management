@@ -16,6 +16,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Properties;
 
+import javax.persistence.Id;
+
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.DataFormatter;
 import org.apache.poi.ss.usermodel.DateUtil;
@@ -36,7 +38,7 @@ import dwss.nv.gov.backend.data.AssetRepository;
 public class XLSXToEntityConverter {
 
 private File xlsxInFile = null;
-private File csvInFile = null;
+//private File csvInFile = null;
 private JpaRepository  entityRepository = null;
 private Asset asset = null;
 private static List<String> processingfieldNames = null;
@@ -50,8 +52,7 @@ public XLSXToEntityConverter() {
 	super();
 }
 	
-
-public XLSXToEntityConverter(File xlsxInFile, JpaRepository inRepo) {
+public XLSXToEntityConverter(File xlsxInFile, JpaRepository<?,?> inRepo) {
 	super();
 	this.xlsxInFile = xlsxInFile;
 	this.entityRepository = inRepo;
@@ -122,7 +123,7 @@ public void setFieldNames(List<String> fieldNameList) {
 }
 
 
-public int processFile() throws IOException {
+public List<Asset> processFile() throws IOException {
 
 	processingfieldNames = new ArrayList<String>();
 	
@@ -151,13 +152,8 @@ public int processFile() throws IOException {
 	columnProps = buildColumnProperties(XSSFcolumnNameList);
 	
 	//Now get the rest of the rows - in each iteration it is assumed that each record has the same columns
-	processRows(it);
 
-	
-	
-
-	
-	return -1;
+	return 	processRows(it);
 }
 
 
@@ -270,32 +266,39 @@ public String checkXSSFColumnsValid(String columnName) throws NoSuchFieldExcepti
 }
 
 
-public void processRows(Iterator<Row> it) {
+public List<Asset> processRows(Iterator<Row> it) {
+	List<Asset> assetList = new ArrayList<Asset>();
 	String inID = null;
 	Integer inInt = 0;
+	
 	
 	while (it.hasNext()) {
 		XSSFRow theRow = (XSSFRow) it.next();
 		addPropertyValues(theRow);
-		boolean b = columnProps.containsKey("Id");
 		
-		inID = columnProps.getProperty("Id");
-		if (inID != null || inID != "") {
-			//see if it is in the database
-			inInt = tryParse(inID);
-			if (inInt != null)
-				asset = ((AssetRepository) entityRepository).findOne(inInt.intValue());
+		if (columnProps.containsKey("Id")) {
+		
+			inID = columnProps.getProperty("Id");
+			if (inID != null || !inID.equals("")) {
+				//see if it is in the database
+				inInt = tryParse(inID);
+				if (inInt != null)
+					asset = ((AssetRepository) entityRepository).findOne(inInt.intValue());
+				
+				if (asset == null)
+					asset = new Asset();
+			}	
 			
-			if (asset == null)
-				asset = new Asset();
-		}				
+		} else {
+			asset = new Asset();
+		}
 		
 		callSetters(asset, columnProps);
 
-		entityRepository.save(asset);	
-
+		assetList.add(asset);
 	}
 
+	return assetList;
 }
 
 public static Integer tryParse(String text) {

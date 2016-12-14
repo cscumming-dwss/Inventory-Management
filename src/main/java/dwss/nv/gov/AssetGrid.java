@@ -61,13 +61,51 @@ public class AssetGrid extends Grid {
         removeColumn("historyLog");
         removeColumn("locationType");
         
+        getColumn("assetModel").setHeaderCaption("Model");
+        getColumn("assetType").setHeaderCaption("Type");
+        getColumn("serialCode").setHeaderCaption("Serial");
+        getColumn("locationCode").setHeaderCaption("Location");
+        getColumn("purchaseOrder").setHeaderCaption("PO #");
+        getColumn("budgetCode").setHeaderCaption("Budget Acct");
+        getColumn("inventoryDate").setHeaderCaption("Inventoried");
+        
+        getColumn("id").setWidth(70);
+        getColumn("barCode").setWidth(110);
+        getColumn("propertyTag").setWidth(110);
+        getColumn("serialCode").setWidth(120);
+        getColumn("assetModel").setWidth(90);
+        getColumn("assetType").setWidth(90);
+        getColumn("manufacturer").setWidth(90);
+        getColumn("unit").setWidth(120);
+        getColumn("vendor").setWidth(110);
+        getColumn("budgetCode").setWidth(110);
+        getColumn("purchaseOrder").setWidth(110);
+        
+        getColumn("heatTicket").setWidth(120);
+        getColumn("cost").setWidth(120);
+        
+        
+        getColumn("dateEntered").setWidth(120);
+        getColumn("dateReceived").setWidth(120);
+        getColumn("verifiedDate").setWidth(120);
+        getColumn("repApproved").setWidth(120);
+        getColumn("inventoryDate").setWidth(120);
+        
+        getColumn("computerRelated").setWidth(90);
+        getColumn("excessed").setWidth(90);
+        getColumn("itemReplaced").setWidth(90);
+        getColumn("isEquipment").setWidth(90);
+                        
+        getColumn("office").setWidth(90);
+        getColumn("locationCode").setWidth(90);
+        
         
         filter = new GridCellFilter(this);
         
         filter.setNumberFilter("id");
-        filter.setNumberFilter("barCode");
-        filter.setNumberFilter("propertyTag");
-        filter.setNumberFilter("serialCode");
+        filter.setTextFilter("barCode",ignoreCase,onlyMatchPrefix,"1");
+        filter.setTextFilter("propertyTag",ignoreCase,onlyMatchPrefix,"123..");
+        filter.setTextFilter("serialCode",ignoreCase, onlyMatchPrefix,"123..");
         filter.setDateFilter("dateEntered");
         filter.setTextFilter("office", true, false,"CO");
         filter.setTextFilter("description", true, false);
@@ -87,6 +125,7 @@ public class AssetGrid extends Grid {
         filter.setBooleanFilter("itemReplaced");
         filter.setDateFilter("inventoryDate");
         filter.setBooleanFilter("isEquipment");
+        filter.setNumberFilter("cost", "0","1000000");
         filter.setNumberFilter("heatTicket", "0", "999999999");
         
         //add renderers on grid so they display correctly ISSUE #15
@@ -105,8 +144,8 @@ public class AssetGrid extends Grid {
 
             @Override
             public String getStyle(CellReference cellReference) {
-                if (cellReference.getPropertyId().equals("price")
-                        || cellReference.getPropertyId().equals("stockCount")) {
+                if (cellReference.getPropertyId().equals("cost")
+                        || cellReference.getPropertyId().equals("heatTicket")) {
                     return "align-right";
                 }
                 return null;

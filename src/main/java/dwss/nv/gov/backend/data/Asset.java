@@ -24,7 +24,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @NamedQueries({
   @NamedQuery(name = "Asset.findAll", query = "SELECT p FROM Asset p"),
-  @NamedQuery(name = "Asset.findByProductID", query = "SELECT p FROM Asset p WHERE p.id = :id"),
+  @NamedQuery(name = "Asset.findAllBudgetCodes", query = "SELECT DISTINCT p.budgetCode From Asset p "),
+  @NamedQuery(name = "Asset.findByAssetID", query = "SELECT p FROM Asset p WHERE p.id = :id"),
   @NamedQuery(name = "Asset.findByManufacturer", query = "SELECT p FROM Asset p WHERE p.manufacturer = :manufacturer"),
 //  @NamedQuery(name = "Asset.findByBarCode", query = "SELECT p FROM Asset p WHERE p.barCode = :barCode"),
   @NamedQuery(name = "Asset.findByPropertyTag", query = "SELECT p FROM Asset p WHERE p.propertyTag = :propertyTag")})
