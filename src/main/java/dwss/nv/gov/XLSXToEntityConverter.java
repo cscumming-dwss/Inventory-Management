@@ -123,7 +123,7 @@ public void setFieldNames(List<String> fieldNameList) {
 }
 
 
-public List<Asset> processFile() throws IOException {
+public List<Asset> processFile() throws IOException, NoSuchFieldException {
 
 	processingfieldNames = new ArrayList<String>();
 	
@@ -199,11 +199,11 @@ public List<String> buildHeaderColumnList(XSSFRow headerRecord)  {
 }
 
 
-public Properties buildColumnProperties(List<String> XSSFPropertyNames) {
+public Properties buildColumnProperties(List<String> XSSFPropertyNames) throws NoSuchFieldException {
 	Properties columnProps = new Properties();
 	String key = new String();
 
-	try {
+//	try {
 
 	for (String string : XSSFPropertyNames){
 			key = checkXSSFColumnsValid(string);
@@ -211,12 +211,12 @@ public Properties buildColumnProperties(List<String> XSSFPropertyNames) {
 			columnProps.setProperty(key, "");
 	}
 	
-	} catch (NoSuchFieldException e) {
+/*	} catch (NoSuchFieldException e) {
 		System.out.println(e);
 		Notification.show("Invalid Field name", "Check Documenation for valid column Names" + " " + key , null);
 		// throw (Exception e) - should pass it on....
 	}
-
+*/
 	return columnProps;
 }
 

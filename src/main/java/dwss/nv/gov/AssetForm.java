@@ -47,12 +47,16 @@ public class AssetForm extends AssetFormDesign {
         addStyleName("product-form");
         setResponsive(true);
         //Experiment with setting size
-        setSizeFull();
+        //setSizeFull();
+        setWidth("760px");
         viewLogic = sampleCrudLogic;
 
         cost.setConverter(new DollarConverter());
         
         verifiedDate.setResponsive(true);
+        comments.setWordwrap(true);
+        notes.setWordwrap(true);
+        historyLog.setWordwrap(true);
         
 //   Comment out - unless we need an example for a combo box  10/21/16
 //        for (Availability s : Availability.values()) {

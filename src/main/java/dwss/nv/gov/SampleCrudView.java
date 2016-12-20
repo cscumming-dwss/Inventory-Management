@@ -1,6 +1,8 @@
 package dwss.nv.gov;
 
+import java.awt.Color;
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -8,6 +10,16 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 
+import org.apache.poi.ss.usermodel.BorderStyle;
+import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.Font;
+import org.apache.poi.ss.usermodel.HorizontalAlignment;
+import org.apache.poi.xssf.model.StylesTable;
+import org.apache.poi.xssf.usermodel.XSSFCellStyle;
+import org.apache.poi.xssf.usermodel.XSSFColor;
+import org.apache.poi.xssf.usermodel.XSSFFont;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.apache.poi.xssf.usermodel.extensions.XSSFCellBorder.BorderSide;
 import org.vaadin.addons.ExportExcelComponentConfiguration;
 import org.vaadin.addons.ExportExcelConfiguration;
 import org.vaadin.addons.ExportExcelSheetConfiguration;
@@ -19,8 +31,8 @@ import org.vaadin.addons.builder.ExportExcelSheetConfigurationBuilder;
 import org.vaadin.easyuploads.UploadField;
 import org.vaadin.easyuploads.UploadField.FieldType;
 import org.vaadin.easyuploads.UploadField.StorageMode;
-import org.vaadin.resetbuttonfortextfield.ResetButtonForTextField;
 
+import com.vaadin.data.Container;
 import com.vaadin.data.Property;
 import com.vaadin.event.SelectionEvent;
 import com.vaadin.event.SelectionEvent.SelectionListener;
@@ -37,7 +49,6 @@ import com.vaadin.ui.Grid.SelectionModel;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.Notification.Type;
-import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.themes.ValoTheme;
 
@@ -105,18 +116,19 @@ public class SampleCrudView extends CssLayout implements View {
     }
 
     public HorizontalLayout createTopBar() {
-        //TextField filter = new TextField();
-        //filter.setStyleName("filter-textfield");
-        ///filter.setInputPrompt("Filter");
-        ///ResetButtonForTextField.extend(filter);
-        //filter.setImmediate(true);
-/*        filter.addTextChangeListener(new FieldEvents.TextChangeListener() {
+ 
+/*        ExcelExporter gexcelExporter = new ExcelExporter();
+        gexcelExporter.setDateFormat("yyyy-MM-dd");
+        gexcelExporter.setGridToBeExported(grid);
+        gexcelExporter.setCaption("Export to Excel");
+        gexcelExporter.setDownloadFileName("demo-gridexcel-exporter");
+        gexcelExporter.addClickListener(new ClickListener() {
             @Override
-            public void textChange(FieldEvents.TextChangeEvent event) {
-                grid.setFilter(event.getText());
+            public void buttonClick(ClickEvent event) {
+                System.out.println("Catch me if you can");
             }
         });
-*/
+*/        
         exportGrid = new Button("Export");
         exportGrid.addStyleName(ValoTheme.BUTTON_DANGER);
         exportGrid.addClickListener(new ClickListener() {
@@ -124,6 +136,7 @@ public class SampleCrudView extends CssLayout implements View {
             public void buttonClick(ClickEvent event) {
                 /* Configuring Components */
                 Collection c = grid.getContainerDataSource().getContainerPropertyIds();
+                System.out.println(c);
                 ExportExcelComponentConfiguration componentConfig1 = 
                 		new ExportExcelComponentConfigurationBuilder().withGrid(grid) //Your Table or component goes here
                                                                       .withVisibleProperties(grid.getVisibleColumns())
@@ -133,20 +146,45 @@ public class SampleCrudView extends CssLayout implements View {
                                                                       .withDateFormattingProperties(new ArrayList<String>(Arrays.asList("dateEntered",
                                                                     		  															"dateReceived",
                                                                     		  															"verifiedDate",
+                                                                         		  															"verifiedDate",
                                                                     		  															"repApproved",
                                                                     		  															"inventoryDate")))
 //                                                                      .withColumnFormatters(new ArrayList<String>(Arrays.asList(a)))
 //                                                                    .withColumnHeaderKeys(this.grid.getColumnHeaders()) 
                                                                       .build();
+                
+                
                 /* Configuring Sheets */
                 ArrayList<ExportExcelComponentConfiguration> componentList1 = new ArrayList<ExportExcelComponentConfiguration>();
                 componentList1.add(componentConfig1);
 
-                ExportExcelSheetConfiguration sheetConfig1 = new ExportExcelSheetConfigurationBuilder().withSheetName("DWSS IT Assets")
+                
+                ExportExcelSheetConfigurationBuilder builder = new ExportExcelSheetConfigurationBuilder();
+                builder.withSheetName("DWSS IT Assets");
+                builder.withComponentConfigs(componentList1);
+                builder.withIsHeaderSectionAdded(Boolean.FALSE);
+                builder.withIsHeaderSectionRequired(Boolean.FALSE);
+                
+                
+                XSSFCellStyle hcellStyle = new  XSSFCellStyle(new StylesTable());
+                hcellStyle.setAlignment(HorizontalAlignment.CENTER);
+                hcellStyle.setFillForegroundColor(new XSSFColor(new Color(228, 234, 238)));
+                hcellStyle.setFillPattern(XSSFCellStyle.NO_FILL);
+
+ //               
+                builder.withHeaderValueStyle(hcellStyle);
+  //      		builder.withHeaderValueStyle
+                builder.withIsDefaultSheetTitleRequired(false);
+                builder.withIsDefaultGeneratedByRequired(false);
+                
+                
+                ExportExcelSheetConfiguration sheetConfig1 = builder.build();
+                
+                /*ExportExcelSheetConfiguration sheetConfig1 = new ExportExcelSheetConfigurationBuilder().withSheetName("DWSS IT Assets")
                                                                                                        .withComponentConfigs(componentList1)
                                                                                                        .withIsHeaderSectionRequired(Boolean.FALSE)
-                                                                                                       .build();
-
+                                                                                                       .build();*/
+                sheetConfig1.setReportTitle("");
                 ui.getCurrent().setLocale(Locale.US);
 //                sheetConfig1.setDateFormat(" %1$tm/%1$td/%1$ty");
                 sheetConfig1.setDateFormat("mm/dd/yyyy");
@@ -154,13 +192,17 @@ public class SampleCrudView extends CssLayout implements View {
                 ArrayList<ExportExcelSheetConfiguration> sheetList = new ArrayList<ExportExcelSheetConfiguration>();
                 sheetList.add(sheetConfig1);
 
-                ExportExcelConfiguration config1 = new ExportExcelConfigurationBuilder().withGeneratedBy("DWSS Inventory ")
-                                                                                        .withSheetConfigs(sheetList)
-                                                                                        .build();
+/*                ExportExcelConfiguration config1 = new ExportExcelConfigurationBuilder().withGeneratedBy("DWSS Inventory ")
+                        .withSheetConfigs(sheetList)
+                        .build();
+*/                ExportExcelConfiguration config1 = new ExportExcelConfigurationBuilder().withSheetConfigs(sheetList)
+                        .build();
 
                 ExportToExcelUtility<Asset> exportToExcelUtility = new ExportToExcelUtility<Asset>(ui.getCurrent(), config1, Asset.class);
                 exportToExcelUtility.setSourceUI(ui.getCurrent());
                 exportToExcelUtility.setResultantExportType(ExportType.XLSX);
+                
+                
                 exportToExcelUtility.export();
             }
         });
@@ -177,16 +219,44 @@ public class SampleCrudView extends CssLayout implements View {
         		showSaveNotification("File Uploaded " + uplDoc.getValue());
         		File newfile = (File)uplDoc.getValue();
         		XLSXToEntityConverter xlsxConvert = new XLSXToEntityConverter(newfile, ui.getAssetRepository());
+    			Container.Indexed ci = grid.getContainerDataSource();
         		
         		try {
         			List<Asset> assetList = xlsxConvert.processFile();
         			VaadinUI.get().getAssetRepository().save(assetList);
-        			refreshAsset(assetList);
+//        			boolean scroller = true;
+        			grid.clearSortOrder();
+        			grid.getFilter().clearAllFilters();
+        			
+        			for (Asset asset : assetList){
+        				if (ci.getItem(asset)== null) {
+        					ci.addItem(asset);
+        				} else {
+        					ci.removeItem(asset);
+        					ci.addItem(asset);
+        				}
+        				
+/*        				if (scroller) {
+        					if (grid.isDetailsVisible(asset)) {
+        							grid.scrollTo(asset);
+        							scroller = false;
+        					}
+        				}
+*/        			}
+        			
+        			//ci.removeAllItems();
+        			
+        			//VaadinUI.get().getAssetRepository().findAll();
+        			//refreshAsset(VaadinUI.get().getAssetRepository().findAll());
+            		grid.scrollToEnd();
+        			
         		} catch (Exception e) {
-        			showError("Unexpected File exception: Correct the Error and Restart " + e);
+        			showError(e.getMessage());
         			System.out.println(e.getMessage() + " Error processing Import! " + e);
+        			
         		}
         		uplDoc.clear();
+        		uplDoc.requestRepaint();
         	}
         });
         
@@ -205,9 +275,9 @@ public class SampleCrudView extends CssLayout implements View {
         HorizontalLayout topLayout = new HorizontalLayout();
         topLayout.setSpacing(true);
         topLayout.setWidth("50%");
-//        topLayout.addComponent(filter);
         topLayout.addComponent(addAsset);
         topLayout.addComponent(exportGrid);
+//        topLayout.addComponent(gexcelExporter);
         topLayout.addComponent(uplDoc);
         topLayout.setComponentAlignment(addAsset, Alignment.MIDDLE_RIGHT);
         topLayout.setComponentAlignment(exportGrid, Alignment.MIDDLE_RIGHT);
@@ -215,8 +285,6 @@ public class SampleCrudView extends CssLayout implements View {
         topLayout.setExpandRatio(addAsset,1);
         topLayout.setExpandRatio(exportGrid,2);
         topLayout.setExpandRatio(uplDoc, 3);
-  //      topLayout.setComponentAlignment(filter, Alignment.MIDDLE_LEFT);
-    //    topLayout.setExpandRatio(filter, 1);
         topLayout.setStyleName("top-bar");
         return topLayout;
     }
@@ -305,4 +373,44 @@ public class SampleCrudView extends CssLayout implements View {
         grid.remove(asset);
     }
 
+    private XSSFCellStyle getDefaultHeaderValueStyle(final XSSFWorkbook myWorkBook) {
+        XSSFCellStyle headerCellStyle = myWorkBook.createCellStyle();
+        headerCellStyle = myWorkBook.createCellStyle();
+        //headerCellStyle.setFillForegroundColor(new XSSFColor(new Color(209, 220, 227)));
+        headerCellStyle.setFillPattern(XSSFCellStyle.NO_FILL);
+        headerCellStyle.setAlignment(CellStyle.ALIGN_CENTER);
+        headerCellStyle = setBorders(headerCellStyle, Boolean.TRUE, Boolean.TRUE, Boolean.TRUE, Boolean.TRUE);
+
+        XSSFFont boldFont = myWorkBook.createFont();
+        boldFont.setBoldweight(Font.BOLDWEIGHT_BOLD);
+        headerCellStyle.setFont(boldFont);
+        
+
+        return headerCellStyle;
+    }
+    
+    private XSSFCellStyle setBorders(final XSSFCellStyle headerCellStyle, final Boolean left, final Boolean right, final Boolean top, final Boolean bottom) {
+        if (bottom) {
+            headerCellStyle.setBorderBottom(BorderStyle.THIN);
+            headerCellStyle.setBorderColor(BorderSide.BOTTOM, new XSSFColor(Color.BLACK));
+        }
+
+        if (top) {
+            headerCellStyle.setBorderTop(BorderStyle.THIN);
+            headerCellStyle.setBorderColor(BorderSide.TOP, new XSSFColor(Color.BLACK));
+        }
+
+        if (left) {
+            headerCellStyle.setBorderLeft(BorderStyle.THIN);
+            headerCellStyle.setBorderColor(BorderSide.LEFT, new XSSFColor(Color.BLACK));
+        }
+
+        if (right) {
+            headerCellStyle.setBorderRight(BorderStyle.THIN);
+            headerCellStyle.setBorderColor(BorderSide.RIGHT, new XSSFColor(Color.BLACK));
+        }
+
+        return headerCellStyle;
+    }
+    
 }

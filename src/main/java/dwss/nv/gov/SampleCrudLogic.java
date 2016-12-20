@@ -37,6 +37,8 @@ public class SampleCrudLogic implements Serializable {
         view.showManufacturers(VaadinUI.get().getManufacturerRepository().findAll());
         view.showVendors(VaadinUI.get().getVendorRepository().findAll());
         view.showTypes(VaadinUI.get().getTypeRepository().findAll());
+        //view.showBudgetCodes(VaadinUI.get().getAssetRepository().findAllBudgetCodes());
+       
     }
 
     public void cancelProduct() {

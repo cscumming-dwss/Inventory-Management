@@ -6,25 +6,19 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Locale;
 
+import org.vaadin.gridutil.cell.GridCellFilter;
+
+import com.vaadin.data.Property;
 import com.vaadin.data.util.BeanItem;
 import com.vaadin.data.util.BeanItemContainer;
-import com.vaadin.data.util.IndexedContainer;
 import com.vaadin.data.util.MethodProperty;
-import com.vaadin.data.util.filter.Or;
-import com.vaadin.data.util.filter.SimpleStringFilter;
 import com.vaadin.ui.Grid;
-import com.vaadin.ui.TextField;
 import com.vaadin.ui.renderers.DateRenderer;
 import com.vaadin.ui.renderers.HtmlRenderer;
 import com.vaadin.ui.renderers.NumberRenderer;
 
-import org.vaadin.gridutil.GridUtil;
-import org.vaadin.gridutil.cell.*;
-import org.vaadin.gridutil.converter.SimpleStringConverter;
-import org.vaadin.gridutil.renderer.*;
-import org.vaadin.gridutil.renderer.EditDeleteButtonValueRenderer.EditDeleteButtonClickListener;
-
 import dwss.nv.gov.backend.data.Asset;
+import dwss.nv.gov.exporter.ExporterGrid;
 
 
 
@@ -35,7 +29,7 @@ import dwss.nv.gov.backend.data.Asset;
  * items. This version uses an in-memory data source that is suitable for small
  * data sets.
  */
-public class AssetGrid extends Grid {
+public class AssetGrid extends Grid implements ExporterGrid {
 
 	private BooleanToStringConverter booleanToStringConverter = new BooleanToStringConverter(); 
 	private GridCellFilter filter;
@@ -102,6 +96,7 @@ public class AssetGrid extends Grid {
         
         filter = new GridCellFilter(this);
         
+
         filter.setNumberFilter("id");
         filter.setTextFilter("barCode",ignoreCase,onlyMatchPrefix,"1");
         filter.setTextFilter("propertyTag",ignoreCase,onlyMatchPrefix,"123..");
@@ -176,6 +171,7 @@ public class AssetGrid extends Grid {
             // Updated product
             MethodProperty p = (MethodProperty) item.getItemProperty("id");
             p.fireValueChange();
+            this.clearSortOrder();
         } else {
             // New product
             getContainer().addBean(asset);
@@ -204,7 +200,10 @@ public class AssetGrid extends Grid {
     	//Remove hidden columns
         for (Grid.Column gcolumn : this.getColumns()) {
         	if (!gcolumn.isHidden()) {
-        		visCols.add(gcolumn.getHeaderCaption());
+        		
+        		visCols.add((String) gcolumn.getPropertyId());
+        		
+        		
         	}
         }
     	    	
@@ -213,4 +212,14 @@ public class AssetGrid extends Grid {
 //                "verifiedDate","computerRelated","excessed","locationCode","repApproved","itemReplaced","inventoryDate","isEquipment","heatTicket"};    	
     	return visCols.toArray(new String[0]);
     }
+
+
+	public GridCellFilter getFilter() {
+		return filter;
+	}
+
+
+	public void setFilter(GridCellFilter filter) {
+		this.filter = filter;
+	}
 }
