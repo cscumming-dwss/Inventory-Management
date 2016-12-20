@@ -54,6 +54,7 @@ public class AssetForm extends AssetFormDesign {
         cost.setConverter(new DollarConverter());
         
         verifiedDate.setResponsive(true);
+        barCode.setMaxLength(16);
         comments.setWordwrap(true);
         notes.setWordwrap(true);
         historyLog.setWordwrap(true);
@@ -71,6 +72,7 @@ public class AssetForm extends AssetFormDesign {
         fieldGroup.bindMemberFields(this);
 
         dateEntered.setDateFormat("     MM/dd/yyyy");
+        dateEntered.setResponsive(true);
         //mfieldGroup.bind(this.manufacturer, "entry");
         //vfieldGroup.bind(this.vendor, "entry");
         //System.out.println(verifiedDate.getStyleName());
