@@ -7,7 +7,7 @@ import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.HorizontalLayout;
 
 import dwss.nv.gov.AboutView;
-import dwss.nv.gov.SampleCrudView;
+import dwss.nv.gov.AssetCrudView;
 import dwss.nv.gov.VaadinUI;
 
 /**
@@ -29,8 +29,8 @@ public class MainScreen extends HorizontalLayout {
         final Navigator navigator = new Navigator(ui, viewContainer);
         navigator.setErrorView(ErrorView.class);
         menu = new Menu(navigator);
-        menu.addView(new SampleCrudView(ui), SampleCrudView.VIEW_NAME,
-                SampleCrudView.VIEW_NAME, FontAwesome.EDIT);
+        menu.addView(new AssetCrudView(ui), AssetCrudView.VIEW_NAME,
+                AssetCrudView.VIEW_NAME, FontAwesome.EDIT);
         menu.addView(new AboutView(), AboutView.VIEW_NAME, AboutView.VIEW_NAME,
 //                menu.addView(new AboutView(ui), AboutView.VIEW_NAME, AboutView.VIEW_NAME,
                 FontAwesome.INFO_CIRCLE);

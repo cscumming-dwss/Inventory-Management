@@ -18,11 +18,11 @@ import dwss.nv.gov.backend.data.ManufacturerRepository;
  * the system separately, and to e.g. provide alternative views for the same
  * data.
  */
-public class SampleCrudLogic implements Serializable {
+public class AssetCrudLogic implements Serializable {
 
-    private SampleCrudView view;
+    private AssetCrudView view;
 
-    public SampleCrudLogic(SampleCrudView simpleCrudView) {
+    public AssetCrudLogic(AssetCrudView simpleCrudView) {
         view = simpleCrudView;
     }
 
@@ -59,7 +59,7 @@ public class SampleCrudLogic implements Serializable {
         }
 
         Page page = VaadinUI.get().getPage();
-        page.setUriFragment("!" + SampleCrudView.VIEW_NAME + "/"
+        page.setUriFragment("!" + AssetCrudView.VIEW_NAME + "/"
                 + fragmentParameter, false);
     }
 

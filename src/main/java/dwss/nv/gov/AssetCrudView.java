@@ -56,22 +56,22 @@ import dwss.nv.gov.backend.data.Manufacturer;
 /**
  * A view for performing create-read-update-delete operations on products.
  *
- * See also {@link SampleCrudLogic} for fetching the data, the actual CRUD
+ * See also {@link AssetCrudLogic} for fetching the data, the actual CRUD
  * operations and controlling the view based on events from outside.
  */
-public class SampleCrudView extends CssLayout implements View {
+public class AssetCrudView extends CssLayout implements View {
 
     public static final String VIEW_NAME = "Inventory";
     private VaadinUI ui;
     private AssetGrid grid;
     private AssetForm form;
 
-    private SampleCrudLogic viewLogic = new SampleCrudLogic(this);
+    private AssetCrudLogic viewLogic = new AssetCrudLogic(this);
     private Button addAsset;
     private Button exportGrid;
     private UploadField uplDoc;    
 
-    public SampleCrudView(VaadinUI ui) {
+    public AssetCrudView(VaadinUI ui) {
     	this.ui = ui;
         setSizeFull();
         addStyleName("crud-view");

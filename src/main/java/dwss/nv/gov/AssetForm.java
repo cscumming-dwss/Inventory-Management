@@ -37,19 +37,19 @@ import dwss.nv.gov.backend.data.Vendor;
  */
 public class AssetForm extends AssetFormDesign {
 
-    private SampleCrudLogic viewLogic;
+    private AssetCrudLogic viewLogic;
     private BeanFieldGroup<Asset> fieldGroup;
     private BeanFieldGroup<Manufacturer> mfieldGroup;
     private BeanFieldGroup<Vendor> vfieldGroup;
 
-    public AssetForm(SampleCrudLogic sampleCrudLogic) {
+    public AssetForm(AssetCrudLogic assetCrudLogic) {
         super();
         addStyleName("product-form");
         setResponsive(true);
         //Experiment with setting size
         //setSizeFull();
         setWidth("760px");
-        viewLogic = sampleCrudLogic;
+        viewLogic = assetCrudLogic;
 
         cost.setConverter(new DollarConverter());
         
