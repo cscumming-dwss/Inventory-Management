@@ -11,3 +11,7 @@ $v-layout-margin: $v-layout-margin-top $v-layout-margin-right $v-layout-margin-b
   @include addons;
   @include inventoryTheme;
 }
+.datefieldleft >input{
+  text-align: left !important;
+}
+

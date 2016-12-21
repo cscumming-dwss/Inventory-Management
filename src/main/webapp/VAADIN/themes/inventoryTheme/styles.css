@@ -5768,6 +5768,7 @@ div.v-layout.v-horizontal.v-widget {
 	width: 160px;
 	height: 32px;
 	border-radius: 4px;
+	text-align: left;
 }
 
 .inventoryTheme .v-datefield [class*="textfield"] {

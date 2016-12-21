@@ -41,6 +41,7 @@ public class AssetForm extends AssetFormDesign {
     private BeanFieldGroup<Asset> fieldGroup;
     private BeanFieldGroup<Manufacturer> mfieldGroup;
     private BeanFieldGroup<Vendor> vfieldGroup;
+    private String center = "align-center";
 
     public AssetForm(AssetCrudLogic assetCrudLogic) {
         super();
@@ -54,6 +55,7 @@ public class AssetForm extends AssetFormDesign {
         cost.setConverter(new DollarConverter());
         
         verifiedDate.setResponsive(true);
+        verifiedDate.setStyleName(center);
         barCode.setMaxLength(16);
         comments.setWordwrap(true);
         notes.setWordwrap(true);
@@ -71,8 +73,12 @@ public class AssetForm extends AssetFormDesign {
         
         fieldGroup.bindMemberFields(this);
 
-        dateEntered.setDateFormat("     MM/dd/yyyy");
+        dateEntered.setDateFormat("MM/dd/yyyy");
+        dateEntered.setStyleName(center);
         dateEntered.setResponsive(true);
+        inventoryDate.setStyleName(center);
+        repApproved.setStyleName(center);
+        dateReceived.setStyleName(center);
         //mfieldGroup.bind(this.manufacturer, "entry");
         //vfieldGroup.bind(this.vendor, "entry");
         //System.out.println(verifiedDate.getStyleName());

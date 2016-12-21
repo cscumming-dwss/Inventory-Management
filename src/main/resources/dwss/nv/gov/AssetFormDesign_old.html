@@ -9,7 +9,8 @@
 	<v-label caption="Item Information" />
     <!--  <v-text-field caption="Product name" _id="productName" width="20%" responsvie/>  -->
 
-    <v-vertical-layout height:40% width-full>
+    <v-vertical-layout height:60% width-full>
+		<!-- 	<v-form-layout >  -->
 				<v-horizontal-layout>
 					<v-vertical-layout width-full margin spacing :expand>
 						<v-text-field caption="Bar Code" _id="barCode" width-full />
@@ -39,18 +40,18 @@
         			</v-vertical-layout>
         			<v-vertical-layout width-full margin spacing :expand>
 	        			<v-text-field caption="Heat Ticket:" _id="heatTicket" width-full />
-	        			<v-date-field caption="Verified Date:" _id="verifiedDate" spacing width-full />
+	        			<v-date-field caption="Verified Date:" _id="verifiedDate" margin spacing width-full />
 	        			<v-check-box caption="excessed" _id="excessed" width-full />
         			</v-vertical-layout>
         		</v-horizontal-layout>
         		
         		<!--  Next Set -->        		
 				<v-label caption="Budget Information" />        		
-				<v-horizontal-layout >
-					<v-vertical-layout margin spacing>
-					    <v-date-field caption="Date Entered: " _id="dateEntered"  width-auto />
-						<v-date-field caption="Date Received:" _id="dateReceived" text-align:right width-auto />
-	        			<v-date-field caption="Inventoried" _id="inventoryDate" width-auto />
+				<v-horizontal-layout>
+					<v-vertical-layout width-full margin spacing :expand>
+					    <v-date-field caption="Date Entered: " _id="dateEntered" />
+						<v-date-field caption="Date Received:" _id="dateReceived" width-full />
+	        			<v-date-field caption="Inventoried" _id="inventoryDate" width-full />
 					</v-vertical-layout>
         			<v-vertical-layout width-full margin spacing :expand>
     	    			<v-text-field caption="Budget Acct" _id="budgetCode" width-full />
@@ -64,6 +65,7 @@
         			</v-vertical-layout>
         		</v-horizontal-layout>
         		
+        <!-- </v-form-layout>  -->	
         <v-vertical-layout width:55% margin responsive spacing :expand>
         	<v-text-area caption="Notes" _id="notes" margin spacing width-full responsive />
         	<v-text-area caption="Comments" _id="comments" margin spacing width-full responsive />

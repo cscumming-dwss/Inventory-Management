@@ -16,7 +16,9 @@ import dwss.nv.gov.VaadinUI;
  * 
  */
 public class MainScreen extends HorizontalLayout {
-    private Menu menu;
+
+	private static final long serialVersionUID = 3525403137925785570L;
+	private Menu menu;
 
     public MainScreen(VaadinUI ui) {
 
@@ -31,8 +33,9 @@ public class MainScreen extends HorizontalLayout {
         menu = new Menu(navigator);
         menu.addView(new AssetCrudView(ui), AssetCrudView.VIEW_NAME,
                 AssetCrudView.VIEW_NAME, FontAwesome.EDIT);
+        menu.addView(new AdminView(), AdminView.VIEW_NAME, AdminView.VIEW_NAME,
+                FontAwesome.GEARS);
         menu.addView(new AboutView(), AboutView.VIEW_NAME, AboutView.VIEW_NAME,
-//                menu.addView(new AboutView(ui), AboutView.VIEW_NAME, AboutView.VIEW_NAME,
                 FontAwesome.INFO_CIRCLE);
 
         navigator.addViewChangeListener(viewChangeListener);

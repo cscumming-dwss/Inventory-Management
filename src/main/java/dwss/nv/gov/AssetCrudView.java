@@ -5,18 +5,15 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 
-import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.HorizontalAlignment;
 import org.apache.poi.xssf.model.StylesTable;
 import org.apache.poi.xssf.usermodel.XSSFCellStyle;
 import org.apache.poi.xssf.usermodel.XSSFColor;
-import org.apache.poi.xssf.usermodel.XSSFSheet;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.apache.poi.xssf.usermodel.helpers.ColumnHelper;
 import org.vaadin.addons.ExportExcelComponentConfiguration;
 import org.vaadin.addons.ExportExcelConfiguration;
 import org.vaadin.addons.ExportExcelSheetConfiguration;
@@ -25,6 +22,10 @@ import org.vaadin.addons.ExportType;
 import org.vaadin.addons.builder.ExportExcelComponentConfigurationBuilder;
 import org.vaadin.addons.builder.ExportExcelConfigurationBuilder;
 import org.vaadin.addons.builder.ExportExcelSheetConfigurationBuilder;
+import org.vaadin.addons.formatter.BooleanColumnFormatter;
+import org.vaadin.addons.formatter.ColumnFormatter;
+import org.vaadin.addons.formatter.PrefixColumnFormatter;
+import org.vaadin.addons.formatter.SuffixColumnFormatter;
 import org.vaadin.easyuploads.UploadField;
 import org.vaadin.easyuploads.UploadField.FieldType;
 import org.vaadin.easyuploads.UploadField.StorageMode;
@@ -116,6 +117,7 @@ public class AssetCrudView extends CssLayout implements View {
     public HorizontalLayout createTopBar() {
 
     	exportGrid = new Button("Export");
+    	exportGrid.setResponsive(true);
         exportGrid.addStyleName(ValoTheme.BUTTON_FRIENDLY);
         exportGrid.addClickListener(new ClickListener() {
             @Override
@@ -142,6 +144,7 @@ public class AssetCrudView extends CssLayout implements View {
         addAsset = new Button("New Asset");
         addAsset.addStyleName(ValoTheme.BUTTON_PRIMARY);
         addAsset.setIcon(FontAwesome.PLUS_CIRCLE);
+        addAsset.setResponsive(true);
         addAsset.addClickListener(new ClickListener() {
             @Override
             public void buttonClick(ClickEvent event) {
@@ -270,7 +273,6 @@ public class AssetCrudView extends CssLayout implements View {
                                                               .withDateFormattingProperties(new ArrayList<String>(Arrays.asList("dateEntered",
                                                             		  															"dateReceived",
                                                             		  															"verifiedDate",
-                                                                 		  															"verifiedDate",
                                                             		  															"repApproved",
                                                             		  															"inventoryDate")))
                                                               .build();
@@ -338,5 +340,25 @@ public class AssetCrudView extends CssLayout implements View {
 		uplDoc.clear();
 		uplDoc.requestRepaint();
 	}
-    	
+ 
+    public HashMap buildColumnFormaters() {
+	    HashMap<Object, ColumnFormatter> columnFormatters = new HashMap<>();
+	
+	    // Suffix Formatter provided
+	    columnFormatters.put("cost", new PrefixColumnFormatter("$"));
+	
+	    // Boolean Formatter provided
+	    columnFormatters.put("active", new BooleanColumnFormatter("Yes", "No"));
+	
+	    // Custom Formatting also possible
+	    columnFormatters.put("catalogue", new ColumnFormatter() {
+	
+	        @Override
+	        public Object generateCell(final Object value, final Object itemId, final Object columnId) {
+	            return (value != null) ? ((String) value).toLowerCase() : null;
+	        }
+	    });
+	    
+        return columnFormatters;
+    }
 }

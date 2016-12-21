@@ -145,6 +145,10 @@ $v-layout-spacing-horizontal: round($v-unit-size / 1.8) !default;
     $temp: $v-app-background-color;
     $v-app-background-color: $editor-background-color;
 
+	.datefieldright >input{
+  		text-align: right;
+  	}
+}
     .v-textfield {
       @include valo-textfield-style($background-color: $editor-embed-background-color);
     }

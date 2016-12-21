@@ -13566,3 +13566,7 @@ div.v-layout.v-horizontal.v-widget {
 .inventoryTheme .align-right {
 	text-align: right;
 }
+
+.datefieldleft > input {
+	text-align: left !important;
+}
