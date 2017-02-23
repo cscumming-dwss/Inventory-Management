@@ -1,9 +1,9 @@
 server:
     port: 8080
     app:
-        ad-domain: dwss.nv.gov
-        ad-server: ldap://dwss8.dwss.nv.gov/
-        service-principal: HTTP/UATInventory@dwss.nv.gov
+        ad-domain: example.com
+        ad-server: ldap://example.com/
+        service-principal: HTTP/UATInventory@example.com
         keytab-location: /tmp/tomcat.keytab
-        ldap-search-base: dc=dwss,dc=nv,dc=gov
+        ldap-search-base: dc=example,dc=com
         ldap-search-filter: "(| (userPrincipalName={0}) (sAMAccountName={0}))"
